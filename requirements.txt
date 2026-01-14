@@ -1,3 +1,4 @@
 opencv-python
 numpy<2
-easyocr
+paddlepaddle
+paddleocr
