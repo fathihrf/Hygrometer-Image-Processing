@@ -3,7 +3,7 @@ import json
 import os
 import glob
 import numpy as np
-import easyocr
+from paddleocr import PaddleOCR
 import re
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -78,34 +78,17 @@ def extract_templates(annotations):
     return templates
 
 def preprocess_for_ocr(img_roi):
-    # 1. Upscale
-    scale = 3
+    # PaddleOCR works best on natural images, but upscaling helps small text.
+    scale = 2 
     h, w = img_roi.shape[:2]
     upscaled = cv2.resize(img_roi, (w*scale, h*scale), interpolation=cv2.INTER_CUBIC)
     
-    # 2. Grayscale
-    gray = cv2.cvtColor(upscaled, cv2.COLOR_BGR2GRAY)
-    
-    # 3. Normalize
-    norm = cv2.normalize(gray, None, 0, 255, cv2.NORM_MINMAX)
-    
-    # 4. Otsu Thresholding
-    # This automatically finds the best threshold
-    _, thresh = cv2.threshold(norm, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    
-    # 5. Ensure Black Text on White Background
-    # If empty, try INVERTED image (for Light text on Dark background)
-    if np.mean(thresh) < 127:
-        thresh = cv2.bitwise_not(thresh)
-        
-    # Connect segments!
-    # The digits are composed of separated segments (black on white).
-    # We need to expand the black regions to touch each other.
-    # Since background is white (255) and text is black (0),
-    # EROSION of the image will shrink white regions -> expand black regions.
-    kernel = np.ones((5,5), np.uint8)
-    # Erode to connect components
-    processed = cv2.erode(thresh, kernel, iterations=2)
+    # Add whitespace padding
+    # PaddleOCR needs some margin
+    processed = cv2.copyMakeBorder(upscaled, 20, 20, 20, 20, cv2.BORDER_CONSTANT, value=[127, 127, 127]) 
+    # value=127 (gray) padding might be safer than white/black if we don't know background.
+    # But usually matching background is best.
+    # Let's try simple padding.
     
     return processed
 
@@ -161,29 +144,54 @@ def process_test_images(templates, annotations, reader):
                 # cv2.imwrite(f"debug_{label}_{filename}", processed_roi)
                 
                 # Read text
-                # Try without allowlist first to see what it detects
-                raw_result = reader.readtext(processed_roi)
-                # print(f"  [{label}] Raw OCR (Normal): {raw_result}")
+                # distinct from EasyOCR: PaddleOCR doesn't have a built-in allowlist param in the main call often, 
+                # but we filter with regex anyway.
+                # processed_roi is already BGR now (from revised preprocess)
+                result = reader.ocr(processed_roi)
                 
                 detected_text = ""
                 
                 # Helper to parse result
                 def parse_ocr_result(res):
                      text_out = ""
-                     for (_, text, conf) in res:
-                         # Filter using regex to only keep numbers and dots
-                         cleaned = re.sub(r'[^0-9.]', '', text)
-                         text_out += cleaned
+                     if not res: return text_out
+                     
+                     # Check for new Dictionary format (PaddleOCR 3.x / PaddleX)
+                     if isinstance(res, list) and len(res) > 0 and isinstance(res[0], dict):
+                         # format: [{'rec_texts': [...], 'rec_scores': [...], ...}]
+                         for item in res:
+                             texts = item.get('rec_texts', [])
+                             for text in texts:
+                                 cleaned = re.sub(r'[^0-9.]', '', text)
+                                 text_out += cleaned
+                         return text_out
+                     
+                     # Fallback to list of lines format
+                     for line in res:
+                         if isinstance(line, list):
+                            # line could be [[box], [text, score]] OR a list of such lines
+                            # Deep check
+                            if len(line) > 0 and isinstance(line[0], list) and len(line[0]) == 4 and isinstance(line[0][0], list):
+                                # line IS a single result: [[box], [text, score]]
+                                text = line[1][0]
+                                cleaned = re.sub(r'[^0-9.]', '', text)
+                                text_out += cleaned
+                            else:
+                                # line is a list of results?
+                                for subline in line:
+                                    if isinstance(subline, list) and len(subline) >= 2:
+                                         text = subline[1][0]
+                                         cleaned = re.sub(r'[^0-9.]', '', text)
+                                         text_out += cleaned
                      return text_out
 
-                detected_text = parse_ocr_result(raw_result)
+                detected_text = parse_ocr_result(result)
 
-                # If empty, try INVERTED image (for Light text on Dark background)
                 if not detected_text:
                     inverted_roi = cv2.bitwise_not(processed_roi)
-                    raw_result_inv = reader.readtext(inverted_roi)
-                    # print(f"  [{label}] Raw OCR (Inverted): {raw_result_inv}")
-                    detected_text = parse_ocr_result(raw_result_inv)
+                    # processed_roi is BGR, so inverted is BGR.
+                    result_inv = reader.ocr(inverted_roi)
+                    detected_text = parse_ocr_result(result_inv)
                 
                 print(f"  [{label}] Detected Value: {detected_text}")
             # -------------------
@@ -218,7 +226,8 @@ def main():
         
     # Init OCR Reader once
     print("Initializing OCR Engine...")
-    reader = easyocr.Reader(['en']) # this needs to run only once to load the model into memory
+    # Try passing det=False here to disable detection model
+    reader = PaddleOCR(lang='en', use_angle_cls=False)
 
     # Phase B: Test
     process_test_images(templates, annotations, reader)
