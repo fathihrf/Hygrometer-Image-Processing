@@ -1,0 +1,198 @@
+{
+    "ref.jpg": {
+        "Temperature": [
+            50,
+            50,
+            40,
+            40
+        ],
+        "Humidity": [
+            150,
+            50,
+            40,
+            40
+        ]
+    },
+    "test1.jpg": {
+        "Temperature": [
+            70,
+            70,
+            40,
+            40
+        ],
+        "Humidity": [
+            170,
+            70,
+            40,
+            40
+        ]
+    },
+    "train_data1.png": {
+        "Temperature": [
+            457,
+            124,
+            267,
+            136
+        ],
+        "Humidity": [
+            549,
+            266,
+            172,
+            144
+        ]
+    },
+    "test_data1.png": {
+        "Temperature": [
+            458,
+            121,
+            264,
+            139
+        ],
+        "Humidity": [
+            548,
+            264,
+            176,
+            146
+        ]
+    },
+    "test_data_copy.png": {
+        "Temperature": [
+            425,
+            120,
+            296,
+            139
+        ],
+        "Humidity": [
+            548,
+            266,
+            176,
+            144
+        ]
+    },
+    "train_data8.png": {
+        "Temperature": [
+            458,
+            119,
+            267,
+            142
+        ],
+        "Humidity": [
+            549,
+            266,
+            175,
+            145
+        ]
+    },
+    "train_data10.png": {
+        "Temperature": [
+            453,
+            120,
+            270,
+            141
+        ],
+        "Humidity": [
+            546,
+            266,
+            177,
+            145
+        ]
+    },
+    "train_data9.png": {
+        "Temperature": [
+            453,
+            123,
+            270,
+            133
+        ],
+        "Humidity": [
+            548,
+            265,
+            175,
+            143
+        ]
+    },
+    "train_data2.png": {
+        "Temperature": [
+            455,
+            120,
+            268,
+            140
+        ],
+        "Humidity": [
+            546,
+            265,
+            178,
+            145
+        ]
+    },
+    "train_data3.png": {
+        "Temperature": [
+            454,
+            122,
+            269,
+            139
+        ],
+        "Humidity": [
+            549,
+            264,
+            176,
+            150
+        ]
+    },
+    "train_data4.png": {
+        "Temperature": [
+            461,
+            119,
+            260,
+            144
+        ],
+        "Humidity": [
+            548,
+            266,
+            177,
+            145
+        ]
+    },
+    "train_data5.png": {
+        "Temperature": [
+            458,
+            121,
+            265,
+            140
+        ],
+        "Humidity": [
+            553,
+            266,
+            170,
+            147
+        ]
+    },
+    "train_data7.png": {
+        "Temperature": [
+            459,
+            121,
+            263,
+            139
+        ],
+        "Humidity": [
+            546,
+            264,
+            177,
+            152
+        ]
+    },
+    "train_data6.png": {
+        "Temperature": [
+            457,
+            121,
+            264,
+            139
+        ],
+        "Humidity": [
+            549,
+            268,
+            176,
+            145
+        ]
+    }
+}
