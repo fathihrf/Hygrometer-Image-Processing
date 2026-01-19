@@ -2,3 +2,4 @@ opencv-python
 numpy<2
 paddlepaddle
 paddleocr
+PyQt5
