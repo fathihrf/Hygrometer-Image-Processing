@@ -1,41 +1,64 @@
-# ROI Tracker Guide
+# HygroScan: Seven-Segment ROI Tracker & OCR
 
-## Step 1: Setup Environment
-Ensure you are in the project directory and the virtual environment is active.
+A robust computer vision tool designed to track and read **Temperature** and **Humidity** values from seven-segment displays (e.g., Hygrometers) using Template Matching and advanced PaddleOCR techniques.
+
+## Features
+- **ROI Tracking**: Uses Template Matching to locate Temperature and Humidity zones on the display.
+- **Robust OCR**: Implements a Multi-Strategy Ensemble using **PaddleOCR**:
+    - **Multi-ROI**: Checks both "Tight" and "Expanded" crops to capture truncated digits.
+    - **Multi-Process**: Applies "Natural" (grayscale) and "Binary+Dilated" (morphological) preprocessing to handle both solid and segmented digits reliably.
+    - **Accuracy**: Capable of reading difficult values like "24.3" even when partially cut off, and correctly interpreting seven-segment gaps.
+- **Graphical Dashboard**: Built with **PyQt5** for easy image upload, preview, and verification.
+- **Data Logging**: Automatically logs detected results (Timestamp, Filename, Values) to `results.csv`.
+
+## Installation
+
+### Prerequisites
+- Python 3.10+
+- Virtual Environment (recommended)
+
+### Setup
+1. **Clone/Download** the repository.
+2. **Create Virtual Environment**:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate
+   ```
+3. **Install Dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+   *Note: This installs `opencv-python`, `paddlepaddle`, `paddleocr`, and `pyqt5`.*
+
+## Project Structure
+- `app.py`: **Main Application**. Run this to start the GUI.
+- `main.py`: **Backend Logic**. Contains the core OCR and image processing algorithms.
+- `annotate.py`: Tool to create new templates/ground truth (if running from scratch).
+- `ui/mainwindow.ui`: Qt Designer file for the interface.
+- `images/`: Directory for Training (Templates) and Testing images.
+- `results.csv`: Log file for exported data.
+
+## Usage
+
+### 1. Start the App
 ```bash
-source venv/bin/activate
-```
-*(If you haven't installed dependencies yet)*
-```bash
-pip install -r requirements.txt
+python app.py
 ```
 
-## Step 2: Prepare Images
-Place your images in the following folders. **Ensure all filenames are unique** across both folders.
-- **Reference/Training Images**: Place clearly visible images of your target objects in `images/train/`.
-- **Testing Images**: Place the images you want to track/detect in `images/test/`.
+### 2. Dashboard Workflow
+- **Upload Image**: Click "Select Photo" to choose a test image.
+- **View Results**: The app will automatically process the image:
+    - Draw bounding boxes (Red = Prediction, Green = Ground Truth).
+    - Display detected **Temperature** and **Humidity**.
+- **Edit/Verify**: You can manually correct the values in the text boxes if needed.
+- **Save**: Click **Confirm**. This saves the data to `results.csv`.
 
-## Step 3: Annotate Images
-Run the annotation tool to define what you want to track.
-```bash
-python annotate.py
-```
-**Controls:**
-- The script will open each image one by one.
-- **Draw Box**: Click and drag to select the region for the requested class (e.g., "Temperature", "Humidity").
-- **Confirm**: Press `SPACE` or `ENTER` to confirm the selection.
-- **Cancel/Skip**: Press `c` to cancel the selection for a specific class if the object is not visible.
+### 3. Annotating (Optional)
+If you want to train on new device types:
+1. Place reference images in `images/train/`.
+2. Run `python annotate.py`.
+3. Select the regions for "Temperature" and "Humidity".
 
-## Step 4: Run Tracking
-Run the main script to perform template matching.
-```bash
-python main.py
-```
-**What happens:**
-1. It creates templates from the annotated images in `images/train/`.
-2. It searches for those templates in `images/test/`.
-3. It prints the Match Score and IoU (if ground truth exists).
-4. It saves the results with bounding boxes as `output_<filename>.jpg`.
-
-## Step 5: Check Results
-View the generated `output_*.jpg` files in the project root to visualize the detection accuracy.
+## Troubleshooting
+- **PaddleOCR Warning**: First run might take a moment to download/cache models.
+- **"2" vs "24.3"**: If digits are cut off, the system now automatically expands the search area. If issues persist, check your template quality.
