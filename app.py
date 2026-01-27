@@ -12,7 +12,77 @@ from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import Qt
 import main as backend
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2.service_account import Credentials
+
+from PyQt5.QtWidgets import QDialog, QStackedWidget
+# Import the QR logic (we'll implement the dialog inside app.py or as a separate class)
+# process_events is needed for UI updates during loops
+
+class QRScannerDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Scan QR Code")
+        self.resize(800, 600)
+        self.layout = QVBoxLayout()
+        self.setLayout(self.layout)
+        
+        self.video_label = QLabel("Initializing Camera...")
+        self.video_label.setAlignment(Qt.AlignCenter)
+        self.video_label.setStyleSheet("border: 2px solid #333; background-color: black;")
+        self.video_label.setFixedSize(640, 480)
+        self.layout.addWidget(self.video_label)
+        
+        self.status_label = QLabel("Scanning...")
+        self.status_label.setAlignment(Qt.AlignCenter)
+        self.layout.addWidget(self.status_label)
+        
+        self.detected_data = None
+        self.cap = cv2.VideoCapture(0)
+        self.detector = cv2.QRCodeDetector()
+        
+        self.timer = None
+        self.start_camera()
+
+    def start_camera(self):
+        from PyQt5.QtCore import QTimer
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_frame)
+        self.timer.start(30)
+
+    def update_frame(self):
+        ret, frame = self.cap.read()
+        if not ret:
+            return
+            
+        data, bbox, _ = self.detector.detectAndDecode(frame)
+        
+        if bbox is not None and len(bbox) > 0:
+            points = bbox[0] if len(bbox.shape) == 3 else bbox
+            points = points.astype(int)
+            n = len(points)
+            for i in range(n):
+                cv2.line(frame, tuple(points[i]), tuple(points[(i+1) % n]), (0, 255, 0), 3)
+
+            if data:
+                self.detected_data = data
+                self.accept() # Close dialog with success
+                return
+
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        h, w, ch = frame_rgb.shape
+        bytes_per_line = ch * w
+        q_img = QImage(frame_rgb.data, w, h, bytes_per_line, QImage.Format_RGB888)
+        self.video_label.setPixmap(QPixmap.fromImage(q_img).scaled(self.video_label.size(), Qt.KeepAspectRatio))
+
+    def closeEvent(self, event):
+        if self.timer:
+            self.timer.stop()
+        if self.cap.isOpened():
+            self.cap.release()
+        event.accept()
+
+# Removed separate LocationSelectionPage class since we merged the UI
+
 
 # Start defining the main class based on the UI file
 class HygroScanApp(QMainWindow):
@@ -27,6 +97,32 @@ class HygroScanApp(QMainWindow):
              
         uic.loadUi(ui_file_path, self)
         
+        # Initialize Location Selection Page
+        # Since we merged the UI, the widgets page_location, btn_scan_qr, btn_scan_rfid 
+        # are now directly available after uic.loadUi(ui_file_path, self)
+        
+        # Add to stackedWidget logic
+        # Current Stacked: Index 0=Dashboard, Index 1=Location, Index 2=Upload
+        # We need to ensure we know the indices.
+        
+        # Let's inspect what we have. page_dashboard, page_location, page_upload
+        # The stackedWidget in mainwindow.ui has children in order of insertion in XML.
+        # Order in XML was: page_dashboard, page_location, page_upload
+        
+        self.idx_dashboard = 0
+        self.idx_location = 1
+        self.idx_upload = 2
+        
+        # Track current location ID
+        self.current_location_id = None
+        
+        # Init new UI location connections
+        self.btn_scan_qr.clicked.connect(self.scan_qr)
+        self.btn_scan_rfid.clicked.connect(self.scan_rfid)
+        
+        # Track current location ID
+        self.current_location_id = None
+        
         self.templates = {}
         self.ocr_reader = None
         self.current_image_path = None
@@ -36,13 +132,62 @@ class HygroScanApp(QMainWindow):
         self.init_backend()
         
     def init_ui_connections(self):
-        # Connect UI elements from .ui file to functions
-        self.btn_select_photo.clicked.connect(self.upload_image)
-        self.btn_confirm.clicked.connect(self.save_result)
+        # Explicitly find widgets to ensure they exist
+        self.btn_select_photo = self.findChild(QPushButton, "btn_select_photo")
+        self.btn_confirm = self.findChild(QPushButton, "btn_confirm")
+        self.frame_dropzone = self.findChild(QWidget, "frame_dropzone")
+        
+        if not self.btn_select_photo:
+            print("CRITICAL ERROR: btn_select_photo not found!")
+        else:
+            print("DEBUG: btn_select_photo found, connecting...")
+            self.btn_select_photo.clicked.connect(self.upload_image)
+            
+        if self.btn_confirm:
+            self.btn_confirm.clicked.connect(self.save_result)
+            
+        # Enable Drag and Drop
+        if self.frame_dropzone:
+            self.frame_dropzone.setAcceptDrops(True)
+            # We need to install event filter or subclass/patch the methods
+            # Since uic loads it, we can patch the methods on the instance or the specific widget
+            # Easier to set the MainWindow to accept drops and filter for the frame, 
+            # OR just make the whole window accept drops for simplicity
+            self.setAcceptDrops(True)
         
         # Navigation buttons
-        self.btn_nav_dashboard.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
-        self.btn_nav_upload.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
+        self.btn_nav_dashboard = self.findChild(QPushButton, "btn_nav_dashboard")
+        self.btn_nav_upload = self.findChild(QPushButton, "btn_nav_upload")
+        
+        if self.btn_nav_dashboard:
+             self.btn_nav_dashboard.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(self.idx_dashboard))
+        if self.btn_nav_upload:
+             self.btn_nav_upload.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(self.idx_location))
+
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.accept()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event):
+        files = [u.toLocalFile() for u in event.mimeData().urls()]
+        if files:
+            # Just take the first valid image
+            for f in files:
+                if f.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp')):
+                    print(f"DEBUG: Dropped file {f}")
+                    # Switch to upload page if not already there? 
+                    # Actually, if they drop, we should assume they want to process it.
+                    # But we usually enforce Location Selection first.
+                    # For now, let's just load it if we are on the upload page.
+                    if self.stackedWidget.currentIndex() == self.idx_upload:
+                        self.current_image_path = f
+                        self.load_image_preview(f)
+                        self.process_image(f)
+                    else:
+                        QMessageBox.warning(self, "Navigation", "Please select a location first before uploading.")
+                    break
 
     def init_backend(self):
         # This might be slow, so we could thread it, but for now keep it simple
@@ -65,10 +210,11 @@ class HygroScanApp(QMainWindow):
                 self.btn_select_photo.setEnabled(False)
                 return
                 
-            self.lbl_status.setText("Initializing OCR Engine (this may take a moment)...")
+            self.lbl_status.setText("Initializing OCR Engine (Mobile Mode v4)...")
             QApplication.processEvents()
             from paddleocr import PaddleOCR
-            self.ocr_reader = PaddleOCR(lang='en', use_textline_orientation=False)
+            # Use Mobile models (default) and disable structure analysis which loads heavy models
+            self.ocr_reader = PaddleOCR(lang='en', use_textline_orientation=False, ocr_version='PP-OCRv4')
             
             self.lbl_status.setText("Ready.")
             
@@ -77,6 +223,7 @@ class HygroScanApp(QMainWindow):
             print(e)
 
     def upload_image(self):
+        print("DEBUG: upload_image called")
         options = QFileDialog.Options()
         file_name, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Images (*.png *.jpg *.jpeg *.bmp)", options=options)
         
@@ -137,6 +284,22 @@ class HygroScanApp(QMainWindow):
             self.lbl_status.setText(f"Processing Error: {str(e)}")
             print(e)
             
+    def scan_qr(self):
+        dialog = QRScannerDialog(self)
+        if dialog.exec_() == QDialog.Accepted:
+            location_id = dialog.detected_data
+            QMessageBox.information(self, "Location Identified", f"QR Location ID: {location_id}")
+            self.go_to_upload_page(location_id)
+
+    def scan_rfid(self):
+        text, ok = QInputDialog.getText(self, "RFID Scan", "Waiting for RFID Tag (Simulated):\nEnter Tag ID:")
+        if ok and text:
+            self.go_to_upload_page(text)
+
+    def go_to_upload_page(self, location_id):
+        self.current_location_id = location_id
+        self.stackedWidget.setCurrentIndex(self.idx_upload)
+            
     def save_result(self):
         if not self.current_image_path:
              return
@@ -154,43 +317,47 @@ class HygroScanApp(QMainWindow):
                 
                 # Write header if new file
                 if not file_exists:
-                    writer.writerow(["Timestamp", "Image Name", "Temperature", "Humidity"])
+                    writer.writerow(["Timestamp", "Image Name", "Temperature", "Humidity", "Location ID"])
                     
                 # Write data
                 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 image_name = os.path.basename(self.current_image_path)
-                writer.writerow([timestamp, image_name, temp, hum])
+                loc_id = self.current_location_id if self.current_location_id else "Unknown"
+                # Updated CSV structure to include Location ID
+                writer.writerow([timestamp, image_name, temp, hum, loc_id])
                 
             QMessageBox.information(self, "Saved", f"Data saved to {csv_file}")
             
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to save to CSV: {str(e)}")
             
+
+
         # Google Sheets Upload
         if os.path.exists('credentials.json'):
-             # Prompt for sheet name
-             sheet_name, ok = QInputDialog.getText(self, "Google Cloud", "Enter your Google Sheet Name to upload (Optional):")
-             if ok and sheet_name:
+             # Automatic upload to "Hygrometer Scan"
+             sheet_name = "Hygrometer Scan"
+             try:
+                 self.lbl_status.setText("Uploading to Drive...")
+                 QApplication.processEvents()
+                 
+                 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+                 creds = Credentials.from_service_account_file('credentials.json', scopes=scope)
+                 client = gspread.authorize(creds)
+                 
+                 # Open Sheet
                  try:
-                     self.lbl_status.setText("Uploading to Drive...")
-                     QApplication.processEvents()
-                     
-                     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-                     creds = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scope)
-                     client = gspread.authorize(creds)
-                     
-                     # Open Sheet
-                     try:
-                         sheet = client.open(sheet_name).sheet1
-                         sheet.append_row([timestamp, image_name, temp, hum])
-                         QMessageBox.information(self, "Success", "Data uploaded to Google Sheet!")
-                     except gspread.exceptions.SpreadsheetNotFound:
-                          QMessageBox.warning(self, "Error", f"Spreadsheet '{sheet_name}' not found.\nPlease ensure you 'Shared' it with:\n{creds.service_account_email}")
-                          
-                 except Exception as e:
-                     QMessageBox.warning(self, "Google Sheets Error", str(e))
-                 finally:
-                     self.lbl_status.setText("Ready.")
+                     sheet = client.open(sheet_name).sheet1
+                     loc_id = self.current_location_id if self.current_location_id else "Unknown"
+                     sheet.append_row([timestamp, image_name, temp, hum, loc_id])
+                     QMessageBox.information(self, "Success", "Data uploaded to Google Sheet!")
+                 except gspread.exceptions.SpreadsheetNotFound:
+                      QMessageBox.warning(self, "Error", f"Spreadsheet '{sheet_name}' not found.\nPlease ensure you create a Google Sheet named '{sheet_name}' and share it with:\n{creds.service_account_email}")
+                      
+             except Exception as e:
+                 QMessageBox.warning(self, "Google Sheets Error", str(e))
+             finally:
+                 self.lbl_status.setText("Ready.")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
