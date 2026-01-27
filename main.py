@@ -82,48 +82,60 @@ def preprocess_for_ocr(img_roi):
     # 1. Upscale
     candidate_list = []
 
-    # Candidate 1: Natural @ 2x Scale (Best for Humidity/Solid Text)
-    scale_low = 2
-    h, w = img_roi.shape[:2]
-    upscaled_low = cv2.resize(img_roi, (w*scale_low, h*scale_low), interpolation=cv2.INTER_CUBIC)
+    # 1. Natural @ 2x Scale (Reduced from 4x for speed)
+    h, w = img_roi.shape[:2]  # Fix: Define h, w before usage
     
-    cand1 = cv2.copyMakeBorder(upscaled_low, 20, 20, 20, 20, cv2.BORDER_CONSTANT, value=[127, 127, 127])
-    # Ensure BGR
-    if len(cand1.shape) == 2:
-        cand1 = cv2.cvtColor(cand1, cv2.COLOR_GRAY2BGR)
+    # Safety Check: Clamp max dimension to avoid OOM
+    MAX_DIM = 2000
+    scale_factor = 2.0
+    if h * scale_factor > MAX_DIM or w * scale_factor > MAX_DIM:
+        scale_factor = min(MAX_DIM / w, MAX_DIM / h)
     
+    # Base Upscale to work with
+    img_upscaled = cv2.resize(img_roi, (int(w * scale_factor), int(h * scale_factor)), interpolation=cv2.INTER_CUBIC)
+    
+    # ---------------------------
+    # Candidate 1: Natural (Upscaled + Border)
+    # ---------------------------
+    cand1 = cv2.copyMakeBorder(img_upscaled, 20, 20, 20, 20, cv2.BORDER_CONSTANT, value=[127, 127, 127])
     candidate_list.append(cand1)
 
-    # Candidate 2: Binary + Dilated @ 4x Scale (Best for 7-Segment Temperature)
-    scale_high = 4
-    upscaled_high = cv2.resize(img_roi, (w*scale_high, h*scale_high), interpolation=cv2.INTER_CUBIC)
+    # ---------------------------
+    # Candidate 2: Adaptive Threshold (Best for Glare/Shadows)
+    # ---------------------------
+    gray = cv2.cvtColor(img_upscaled, cv2.COLOR_BGR2GRAY) if len(img_upscaled.shape) == 3 else img_upscaled
     
-    if len(upscaled_high.shape) == 3:
-         gray = cv2.cvtColor(upscaled_high, cv2.COLOR_BGR2GRAY)
-    else:
-         gray = upscaled_high
+    # Adaptive Gaussian
+    thresh_adap = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 31, 10)
+    
+    # Check if we need to invert (ensure text is black on white)
+    # Heuristic: Check corners. If corners are white, background is white.
+    h_t, w_t = thresh_adap.shape
+    corners = [thresh_adap[0,0], thresh_adap[0,w_t-1], thresh_adap[h_t-1,0], thresh_adap[h_t-1,w_t-1]]
+    if np.mean(corners) < 127: # Background is black
+         thresh_adap = cv2.bitwise_not(thresh_adap)
          
-    _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    
-    # Normalize to White Text on Black
-    h, w = thresh.shape
-    corners = [thresh[0,0], thresh[0,w-1], thresh[h-1,0], thresh[h-1,w-1]]
-    if np.mean(corners) > 127: 
-        thresh = cv2.bitwise_not(thresh)
-        
-    # Dilate White Text
-    kernel = np.ones((3,3), np.uint8)
-    processed = cv2.dilate(thresh, kernel, iterations=1)
-    
-    # Invert back to Black on White
-    processed = cv2.bitwise_not(processed)
-    
-    # Pad
-    processed = cv2.copyMakeBorder(processed, 20, 20, 20, 20, cv2.BORDER_CONSTANT, value=[255, 255, 255]) 
-    cand2 = cv2.cvtColor(processed, cv2.COLOR_GRAY2BGR)
-    
+    cand2 = cv2.cvtColor(thresh_adap, cv2.COLOR_GRAY2BGR)
+    cand2 = cv2.copyMakeBorder(cand2, 20, 20, 20, 20, cv2.BORDER_CONSTANT, value=[255, 255, 255])
     candidate_list.append(cand2)
     
+    # ---------------------------
+    # Candidate 3: Thickened (Morphological Closing to connect segments)
+    # ---------------------------
+    kernel = np.ones((3,3), np.uint8)
+    # Erode black text (which thickens it)
+    thickened = cv2.erode(thresh_adap, kernel, iterations=1)
+    
+    cand3 = cv2.cvtColor(thickened, cv2.COLOR_GRAY2BGR)
+    cand3 = cv2.copyMakeBorder(cand3, 20, 20, 20, 20, cv2.BORDER_CONSTANT, value=[255, 255, 255])
+    candidate_list.append(cand3)
+    
+    # ---------------------------
+    # Candidate 4: Inverted Natural (For white-on-black text)
+    # ---------------------------
+    inverted_natural = cv2.bitwise_not(cand1)
+    candidate_list.append(inverted_natural)
+
     return candidate_list
 
 def analyze_image(img, templates, reader, ground_truth=None):
@@ -173,23 +185,39 @@ def analyze_image(img, templates, reader, ground_truth=None):
         
         final_text = ""
         if candidates:
-            # Helper to parse result
             def parse_ocr_result(res):
-                 text_out = ""
-                 if not res: return text_out
+                text_out = ""
+                if not res: return text_out
                  
-                 # Check for new Dictionary format (PaddleOCR 3.x / PaddleX)
-                 if isinstance(res, list) and len(res) > 0 and isinstance(res[0], dict):
-                     for item in res:
-                         texts = item.get('rec_texts', [])
-                         for text in texts:
+                # Case 0: Rec-only mode (det=False) -> returns [(text, score), ...]
+                flat_res = []
+                if isinstance(res, list):
+                    for item in res:
+                        if isinstance(item, tuple) and len(item) == 2:
+                            flat_res.append(item)
+                        elif isinstance(item, list):
+                            for subitem in item:
+                                if isinstance(subitem, tuple) and len(subitem) == 2:
+                                    flat_res.append(subitem)
+                 
+                if flat_res:
+                    for (text, score) in flat_res:
+                        cleaned = re.sub(r'[^0-9.]', '', text)
+                        text_out += cleaned
+                    return text_out
+
+                # Case 1: Dict format
+                if isinstance(res, list) and len(res) > 0 and isinstance(res[0], dict):
+                    for item in res:
+                        texts = item.get('rec_texts', [])
+                        for text in texts:
                              cleaned = re.sub(r'[^0-9.]', '', text)
                              text_out += cleaned
-                     return text_out
+                    return text_out
                  
-                 # Fallback to list of lines format
-                 for line in res:
-                     if isinstance(line, list):
+                # Case 2: Standard Det+Rec format
+                for line in res:
+                    if isinstance(line, list):
                         if len(line) > 0 and isinstance(line[0], list) and len(line[0]) == 4 and isinstance(line[0][0], list):
                             text = line[1][0]
                             cleaned = re.sub(r'[^0-9.]', '', text)
@@ -197,25 +225,33 @@ def analyze_image(img, templates, reader, ground_truth=None):
                         else:
                             for subline in line:
                                 if isinstance(subline, list) and len(subline) >= 2:
-                                     text = subline[1][0]
-                                     cleaned = re.sub(r'[^0-9.]', '', text)
-                                     text_out += cleaned
-                 return text_out
+                                    text = subline[1][0]
+                                    cleaned = re.sub(r'[^0-9.]', '', text)
+                                    text_out += cleaned
+                return text_out
 
             best_text = ""
+            best_text = ""
+            best_score = 0
+            
             for i, img_cand in enumerate(candidates):
-                result = reader.ocr(img_cand)
+                # OPTIMIZATION: Disable detection (det=False) and cls (cls=False)
+                try:
+                    result = reader.ocr(img_cand, det=False, cls=False)
+                except Exception:
+                    result = reader.ocr(img_cand)
+                    
                 detected_text = parse_ocr_result(result)
+                
+                # Heuristic: Prefer longer strings (e.g. "24.3" > "2")
+                # Also check digit only
                 if len(detected_text) > len(best_text):
                     best_text = detected_text
+                elif len(detected_text) == len(best_text):
+                    # Tie breaker? Usually first candidate (Natural) is safest if same length
+                    pass
             
             final_text = best_text
-            
-            # If still empty, try inverted of the Natural candidate (index 0)
-            if not final_text and len(candidates) > 0:
-                inverted_roi = cv2.bitwise_not(candidates[0])
-                result_inv = reader.ocr(inverted_roi)
-                final_text = parse_ocr_result(result_inv)
             
         results[label] = {
             'value': final_text,
@@ -274,9 +310,9 @@ def main():
         return
         
     # Init OCR Reader once
-    print("Initializing OCR Engine...")
-    # Try passing det=False here to disable detection model
-    reader = PaddleOCR(lang='en', use_angle_cls=False)
+    print("Initializing OCR Engine (Mobile Mode v4)...")
+    # Force PP-OCRv4 Mobile
+    reader = PaddleOCR(lang='en', use_textline_orientation=False, ocr_version='PP-OCRv4')
 
     # Phase B: Test
     process_test_images(templates, annotations, reader)
