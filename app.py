@@ -164,6 +164,55 @@ class HygroScanApp(QMainWindow):
         if self.btn_nav_upload:
              self.btn_nav_upload.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(self.idx_location))
 
+        # Setup Brand Logo
+        self.label_brand = self.findChild(QLabel, "label_brand")
+        if self.label_brand:
+            logo_path = "resource/images-8.png"
+            if os.path.exists(logo_path):
+                pixmap = QPixmap(logo_path)
+                if not pixmap.isNull():
+                    # Scale nicely to fit sidebar width (approx 200px wide)
+                    scaled_pixmap = pixmap.scaledToWidth(180, Qt.SmoothTransformation)
+                    self.label_brand.setPixmap(scaled_pixmap)
+                    self.label_brand.setText("")
+                    self.label_brand.setAlignment(Qt.AlignCenter)
+                    # Override style to remove large padding if needed, keep it clean
+                    self.label_brand.setStyleSheet("padding: 10px; background-color: transparent;")
+            else:
+                print(f"Warning: Logo file not found: {logo_path}")
+
+        # Setup Secondary Logos
+        self.label_brand_2 = self.findChild(QLabel, "label_brand_2")
+        self.label_brand_3 = self.findChild(QLabel, "label_brand_3")
+        
+        # Logo 2: AVIF file (Try QPixmap, Fallback to CV2)
+        logo2_path = "resource/enhR8cXOPjAZb2lPuJGHsvASVuq_eBFPvQPUifdVV8I.jpg.avif"
+        if self.label_brand_2 and os.path.exists(logo2_path):
+            pixmap = QPixmap(logo2_path)
+            if pixmap.isNull():
+                 # Try CV2 load
+                 img = cv2.imread(logo2_path)
+                 if img is not None:
+                      img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                      h, w, ch = img.shape
+                      bytes_per_line = ch * w
+                      qimg = QImage(img.data, w, h, bytes_per_line, QImage.Format_RGB888)
+                      pixmap = QPixmap.fromImage(qimg)
+            
+            if not pixmap.isNull():
+                scaled = pixmap.scaledToWidth(180, Qt.SmoothTransformation)
+                self.label_brand_2.setPixmap(scaled)
+                self.label_brand_2.setStyleSheet("padding: 5px; background-color: transparent;")
+
+        # Logo 3: JPG File
+        logo3_path = "resource/parb.jpg"
+        if self.label_brand_3 and os.path.exists(logo3_path):
+             pixmap = QPixmap(logo3_path)
+             if not pixmap.isNull():
+                  scaled = pixmap.scaledToWidth(180, Qt.SmoothTransformation)
+                  self.label_brand_3.setPixmap(scaled)
+                  self.label_brand_3.setStyleSheet("padding: 5px; background-color: transparent;")
+
     def dragEnterEvent(self, event):
         if event.mimeData().hasUrls():
             event.accept()
