@@ -3,13 +3,17 @@
 A robust computer vision tool designed to track and read **Temperature** and **Humidity** values from seven-segment displays (e.g., Hygrometers) using Template Matching and advanced PaddleOCR techniques.
 
 ## Features
-- **ROI Tracking**: Uses Template Matching to locate Temperature and Humidity zones on the display.
-- **Robust OCR**: Implements a Multi-Strategy Ensemble using **PaddleOCR**:
-    - **Multi-ROI**: Checks both "Tight" and "Expanded" crops to capture truncated digits.
-    - **Multi-Process**: Applies "Natural" (grayscale) and "Binary+Dilated" (morphological) preprocessing to handle both solid and segmented digits reliably.
-    - **Accuracy**: Capable of reading difficult values like "24.3" even when partially cut off, and correctly interpreting seven-segment gaps.
-- **Graphical Dashboard**: Built with **PyQt5** for easy image upload, preview, and verification.
-- **Data Logging**: Automatically logs detected results (Timestamp, Filename, Values) to `results.csv`.
+- **Smart OCR**: Uses lightweight **mobile models (PP-OCRv4)** for fast processing.
+    - **Adaptive Thresholding**: Handles glare and shadow automatically.
+    - **Multi-Candidate Processing**: Simultaneously analyzes "Normal", "Thickened", and "Inverted" image variations to correctly read broken segments (e.g., "24.3").
+- **Automatic Cloud Upload**: Seamlessly pushes results to the **"Hygrometer Scan"** Google Sheet.
+- **Workflow Integration**:
+    - **QR Code Scanner**: Identify device location via webcam.
+    - **RFID Placeholder**: Ready for RFID tag integration.
+- **Graphical Dashboard**: 
+    - Real-time preview and manual correction.
+    - Branded UI with custom logos.
+- **Single Entry Point**: Run the entire app with one command.
 
 ## Installation
 
@@ -28,37 +32,38 @@ A robust computer vision tool designed to track and read **Temperature** and **H
    ```bash
    pip install -r requirements.txt
    ```
-   *Note: This installs `opencv-python`, `paddlepaddle`, `paddleocr`, and `pyqt5`.*
-
-## Project Structure
-- `app.py`: **Main Application**. Run this to start the GUI.
-- `main.py`: **Backend Logic**. Contains the core OCR and image processing algorithms.
-- `annotate.py`: Tool to create new templates/ground truth (if running from scratch).
-- `ui/mainwindow.ui`: Qt Designer file for the interface.
-- `images/`: Directory for Training (Templates) and Testing images.
-- `results.csv`: Log file for exported data.
+4. **Google Sheets Setup**:
+   - Place your `credentials.json` (Service Account Key) in the root folder.
+   - Create a Google Sheet named **"Hygrometer Scan"** and share it with your Service Account email.
 
 ## Usage
 
 ### 1. Start the App
 ```bash
-python app.py
+python main.py
 ```
 
-### 2. Dashboard Workflow
-- **Upload Image**: Click "Select Photo" to choose a test image.
-- **View Results**: The app will automatically process the image:
-    - Draw bounding boxes (Red = Prediction, Green = Ground Truth).
-    - Display detected **Temperature** and **Humidity**.
-- **Edit/Verify**: You can manually correct the values in the text boxes if needed.
-- **Save**: Click **Confirm**. This saves the data to `results.csv`.
+### 2. Workflow
+1. **Identify Location**:
+   - Use **"Scan QR Code"** to use your webcam.
+   - Or use **"Scan RFID Tag"** (Simulation) to enter a tag ID.
+2. **Upload & Analyze**:
+   - After location selection, you are taken to the Upload page.
+   - **Select** or **Drag & Drop** an image file.
+   - The system automatically detects Temperature and Humidity.
+3. **Review & Save**:
+   - Verify the values (edit if necessary).
+   - Click **Confirm & Save**.
+   - Data is saved locally to `results.csv` AND uploaded to your Google Sheet.
 
-### 3. Annotating (Optional)
-If you want to train on new device types:
-1. Place reference images in `images/train/`.
-2. Run `python annotate.py`.
-3. Select the regions for "Temperature" and "Humidity".
+## Project Structure
+- `main.py`: **The App**. Contains both the GUI (PyQt5) and the Backend (OCR) logic.
+- `annotate.py`: Tool to create new templates/ground truth.
+- `ui/mainwindow.ui`: The graphical interface layout.
+- `resource/`: Logos and assets.
+- `images/`: Directory for Training (Templates) and Testing images.
+- `results.csv`: Local log file.
 
 ## Troubleshooting
-- **PaddleOCR Warning**: First run might take a moment to download/cache models.
-- **"2" vs "24.3"**: If digits are cut off, the system now automatically expands the search area. If issues persist, check your template quality.
+- **"Credentials not found"**: Ensure `credentials.json` is in the same folder as `main.py`.
+- **"Spreadsheet not found"**: Make sure your Google Sheet is named exactly **"Hygrometer Scan"**.
