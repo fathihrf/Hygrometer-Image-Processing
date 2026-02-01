@@ -1,198 +1,4272 @@
 {
-    "ref.jpg": {
+    "train_data217.jpg": {
         "Temperature": [
-            50,
-            50,
-            40,
-            40
+            445,
+            210,
+            217,
+            118
         ],
         "Humidity": [
+            520,
+            331,
+            141,
+            119
+        ]
+    },
+    "train_data203.jpg": {
+        "Temperature": [
+            547,
+            226,
+            212,
+            111
+        ],
+        "Humidity": [
+            630,
+            347,
+            133,
+            113
+        ]
+    },
+    "train_data161.jpg": {
+        "Temperature": [
+            453,
+            182,
+            214,
+            115
+        ],
+        "Humidity": [
+            534,
+            304,
+            136,
+            115
+        ]
+    },
+    "train_data175.jpg": {
+        "Temperature": [
+            415,
+            183,
+            220,
+            115
+        ],
+        "Humidity": [
+            499,
+            308,
+            136,
+            116
+        ]
+    },
+    "train_data149.jpg": {
+        "Temperature": [
+            314,
+            219,
+            244,
+            131
+        ],
+        "Humidity": [
+            403,
+            357,
+            152,
+            131
+        ]
+    },
+    "train_data13.jpg": {
+        "Temperature": [
+            447,
+            183,
+            269,
+            140
+        ],
+        "Humidity": [
+            554,
+            335,
+            169,
+            137
+        ]
+    },
+    "train_data12.jpg": {
+        "Temperature": [
+            553,
+            147,
+            215,
+            119
+        ],
+        "Humidity": [
+            630,
+            272,
+            143,
+            113
+        ]
+    },
+    "train_data148.jpg": {
+        "Temperature": [
+            635,
+            232,
+            244,
+            132
+        ],
+        "Humidity": [
+            729,
+            374,
+            152,
+            136
+        ]
+    },
+    "train_data174.jpg": {
+        "Temperature": [
+            414,
+            185,
+            221,
+            113
+        ],
+        "Humidity": [
+            498,
+            308,
+            138,
+            119
+        ]
+    },
+    "train_data160.jpg": {
+        "Temperature": [
+            460,
+            203,
+            238,
+            130
+        ],
+        "Humidity": [
+            551,
+            339,
+            149,
+            133
+        ]
+    },
+    "train_data202.jpg": {
+        "Temperature": [
+            548,
+            224,
+            211,
+            113
+        ],
+        "Humidity": [
+            628,
+            346,
+            142,
+            117
+        ]
+    },
+    "train_data216.jpg": {
+        "Temperature": [
+            549,
+            186,
+            211,
+            118
+        ],
+        "Humidity": [
+            627,
+            309,
+            134,
+            116
+        ]
+    },
+    "train_data8.jpg": {
+        "Temperature": [
+            451,
+            146,
+            265,
+            145
+        ],
+        "Humidity": [
+            549,
+            293,
+            165,
+            141
+        ]
+    },
+    "train_data200.jpg": {
+        "Temperature": [
+            716,
+            111,
+            199,
+            108
+        ],
+        "Humidity": [
+            792,
+            228,
+            128,
+            105
+        ]
+    },
+    "train_data214.jpg": {
+        "Temperature": [
+            548,
+            186,
+            211,
+            115
+        ],
+        "Humidity": [
+            627,
+            310,
+            136,
+            116
+        ]
+    },
+    "train_data228.jpg": {
+        "Temperature": [
+            460,
+            197,
+            202,
+            112
+        ],
+        "Humidity": [
+            535,
+            312,
+            129,
+            106
+        ]
+    },
+    "train_data189.jpg": {
+        "Temperature": [
+            630,
+            117,
+            238,
+            134
+        ],
+        "Humidity": [
+            721,
+            258,
             150,
-            50,
-            40,
-            40
+            128
         ]
     },
-    "test1.jpg": {
+    "train_data176.jpg": {
         "Temperature": [
-            70,
-            70,
-            40,
-            40
+            416,
+            182,
+            218,
+            119
         ],
         "Humidity": [
-            170,
-            70,
-            40,
-            40
+            497,
+            311,
+            138,
+            114
         ]
     },
-    "train_data1.png": {
+    "train_data162.jpg": {
         "Temperature": [
-            457,
-            124,
+            450,
+            182,
+            216,
+            115
+        ],
+        "Humidity": [
+            534,
+            302,
+            140,
+            117
+        ]
+    },
+    "train_data10.jpg": {
+        "Temperature": [
+            548,
+            145,
+            221,
+            120
+        ],
+        "Humidity": [
+            633,
+            271,
+            141,
+            117
+        ]
+    },
+    "train_data38.jpg": {
+        "Temperature": [
+            552,
+            196,
+            219,
+            121
+        ],
+        "Humidity": [
+            631,
+            323,
+            144,
+            120
+        ]
+    },
+    "train_data39.jpg": {
+        "Temperature": [
+            549,
+            199,
+            224,
+            118
+        ],
+        "Humidity": [
+            630,
+            322,
+            145,
+            125
+        ]
+    },
+    "train_data11.jpg": {
+        "Temperature": [
+            552,
+            148,
+            214,
+            116
+        ],
+        "Humidity": [
+            632,
+            270,
+            143,
+            120
+        ]
+    },
+    "train_data163.jpg": {
+        "Temperature": [
+            446,
+            180,
+            218,
+            115
+        ],
+        "Humidity": [
+            535,
+            305,
+            136,
+            118
+        ]
+    },
+    "train_data177.jpg": {
+        "Temperature": [
+            410,
+            118,
+            202,
+            108
+        ],
+        "Humidity": [
+            484,
+            228,
+            132,
+            110
+        ]
+    },
+    "train_data188.jpg": {
+        "Temperature": [
+            644,
+            187,
+            225,
+            124
+        ],
+        "Humidity": [
+            733,
+            320,
+            144,
+            120
+        ]
+    },
+    "train_data229.jpg": {
+        "Temperature": [
+            506,
+            234,
+            211,
+            115
+        ],
+        "Humidity": [
+            580,
+            355,
+            142,
+            121
+        ]
+    },
+    "train_data215.jpg": {
+        "Temperature": [
+            545,
+            189,
+            212,
+            117
+        ],
+        "Humidity": [
+            628,
+            310,
+            136,
+            118
+        ]
+    },
+    "train_data201.jpg": {
+        "Temperature": [
+            542,
+            225,
+            219,
+            113
+        ],
+        "Humidity": [
+            627,
+            345,
+            138,
+            116
+        ]
+    },
+    "train_data9.jpg": {
+        "Temperature": [
+            549,
+            145,
+            219,
+            120
+        ],
+        "Humidity": [
+            632,
+            270,
+            140,
+            117
+        ]
+    },
+    "train_data239.jpg": {
+        "Temperature": [
+            417,
+            169,
+            224,
+            116
+        ],
+        "Humidity": [
+            504,
+            297,
+            142,
+            114
+        ]
+    },
+    "train_data205.jpg": {
+        "Temperature": [
+            470,
+            241,
+            229,
+            120
+        ],
+        "Humidity": [
+            559,
+            371,
+            144,
+            120
+        ]
+    },
+    "train_data211.jpg": {
+        "Temperature": [
+            530,
+            158,
+            221,
+            119
+        ],
+        "Humidity": [
+            610,
+            285,
+            143,
+            116
+        ]
+    },
+    "train_data198.jpg": {
+        "Temperature": [
+            715,
+            113,
+            202,
+            110
+        ],
+        "Humidity": [
+            789,
+            226,
+            132,
+            107
+        ]
+    },
+    "train_data173.jpg": {
+        "Temperature": [
+            406,
+            184,
+            226,
+            115
+        ],
+        "Humidity": [
+            496,
+            309,
+            137,
+            118
+        ]
+    },
+    "train_data167.jpg": {
+        "Temperature": [
+            476,
+            147,
+            273,
+            142
+        ],
+        "Humidity": [
+            584,
+            303,
+            167,
+            144
+        ]
+    },
+    "train_data29.jpg": {
+        "Temperature": [
+            446,
+            197,
+            230,
+            120
+        ],
+        "Humidity": [
+            533,
+            329,
+            149,
+            123
+        ]
+    },
+    "train_data15.jpg": {
+        "Temperature": [
+            445,
+            183,
+            275,
+            137
+        ],
+        "Humidity": [
+            550,
+            334,
+            172,
+            139
+        ]
+    },
+    "train_data14.jpg": {
+        "Temperature": [
+            448,
+            184,
+            271,
+            134
+        ],
+        "Humidity": [
+            550,
+            333,
+            174,
+            140
+        ]
+    },
+    "train_data28.jpg": {
+        "Temperature": [
+            637,
+            169,
             267,
             136
         ],
         "Humidity": [
-            549,
+            735,
+            317,
+            167,
+            140
+        ]
+    },
+    "train_data166.jpg": {
+        "Temperature": [
+            476,
+            150,
+            277,
+            141
+        ],
+        "Humidity": [
+            582,
+            298,
+            169,
+            149
+        ]
+    },
+    "train_data172.jpg": {
+        "Temperature": [
+            502,
+            149,
+            214,
+            113
+        ],
+        "Humidity": [
+            584,
+            273,
+            135,
+            106
+        ]
+    },
+    "train_data199.jpg": {
+        "Temperature": [
+            714,
+            111,
+            201,
+            110
+        ],
+        "Humidity": [
+            792,
+            225,
+            128,
+            106
+        ]
+    },
+    "train_data210.jpg": {
+        "Temperature": [
+            530,
+            160,
+            218,
+            113
+        ],
+        "Humidity": [
+            613,
+            283,
+            140,
+            115
+        ]
+    },
+    "train_data204.jpg": {
+        "Temperature": [
+            550,
+            223,
+            210,
+            116
+        ],
+        "Humidity": [
+            622,
+            343,
+            146,
+            121
+        ]
+    },
+    "train_data238.jpg": {
+        "Temperature": [
+            423,
+            169,
+            221,
+            115
+        ],
+        "Humidity": [
+            506,
+            293,
+            139,
+            119
+        ]
+    },
+    "train_data212.jpg": {
+        "Temperature": [
+            532,
+            158,
+            217,
+            119
+        ],
+        "Humidity": [
+            613,
+            280,
+            143,
+            122
+        ]
+    },
+    "train_data206.jpg": {
+        "Temperature": [
+            476,
+            239,
+            222,
+            121
+        ],
+        "Humidity": [
+            558,
+            370,
+            143,
+            123
+        ]
+    },
+    "train_data158.jpg": {
+        "Temperature": [
+            461,
+            204,
+            239,
+            131
+        ],
+        "Humidity": [
+            543,
+            337,
+            156,
+            134
+        ]
+    },
+    "train_data164.jpg": {
+        "Temperature": [
+            447,
+            179,
+            222,
+            121
+        ],
+        "Humidity": [
+            533,
+            306,
+            137,
+            119
+        ]
+    },
+    "train_data170.jpg": {
+        "Temperature": [
+            504,
+            149,
+            212,
+            113
+        ],
+        "Humidity": [
+            584,
             266,
+            135,
+            118
+        ]
+    },
+    "train_data16.jpg": {
+        "Temperature": [
+            449,
+            183,
+            275,
+            137
+        ],
+        "Humidity": [
+            554,
+            333,
+            166,
+            141
+        ]
+    },
+    "train_data17.jpg": {
+        "Temperature": [
+            600,
+            176,
+            241,
+            126
+        ],
+        "Humidity": [
+            692,
+            311,
+            152,
+            130
+        ]
+    },
+    "train_data171.jpg": {
+        "Temperature": [
+            503,
+            150,
+            211,
+            113
+        ],
+        "Humidity": [
+            583,
+            269,
+            135,
+            112
+        ]
+    },
+    "train_data165.jpg": {
+        "Temperature": [
+            484,
+            150,
+            264,
+            141
+        ],
+        "Humidity": [
+            582,
+            301,
+            169,
+            146
+        ]
+    },
+    "train_data159.jpg": {
+        "Temperature": [
+            463,
+            202,
+            238,
+            133
+        ],
+        "Humidity": [
+            551,
+            338,
+            145,
+            132
+        ]
+    },
+    "train_data207.jpg": {
+        "Temperature": [
+            473,
+            240,
+            225,
+            122
+        ],
+        "Humidity": [
+            558,
+            372,
+            140,
+            121
+        ]
+    },
+    "train_data213.jpg": {
+        "Temperature": [
+            545,
+            191,
+            218,
+            112
+        ],
+        "Humidity": [
+            630,
+            309,
+            132,
+            118
+        ]
+    },
+    "train_data274.jpg": {
+        "Temperature": [
+            345,
+            258,
+            198,
+            99
+        ],
+        "Humidity": [
+            418,
+            369,
+            121,
+            100
+        ]
+    },
+    "train_data260.jpg": {
+        "Temperature": [
+            456,
+            122,
+            248,
+            130
+        ],
+        "Humidity": [
+            552,
+            260,
+            151,
+            131
+        ]
+    },
+    "train_data248.jpg": {
+        "Temperature": [
+            359,
+            191,
+            247,
+            131
+        ],
+        "Humidity": [
+            453,
+            331,
+            156,
+            135
+        ]
+    },
+    "train_data102.jpg": {
+        "Temperature": [
+            581,
+            142,
+            198,
+            105
+        ],
+        "Humidity": [
+            655,
+            253,
+            127,
+            107
+        ]
+    },
+    "train_data116.jpg": {
+        "Temperature": [
+            672,
+            186,
+            212,
+            119
+        ],
+        "Humidity": [
+            750,
+            312,
+            131,
+            115
+        ]
+    },
+    "train_data64.jpg": {
+        "Temperature": [
+            509,
+            114,
+            284,
+            154
+        ],
+        "Humidity": [
+            624,
+            281,
+            175,
+            147
+        ]
+    },
+    "train_data70.jpg": {
+        "Temperature": [
+            473,
+            156,
+            191,
+            101
+        ],
+        "Humidity": [
+            543,
+            263,
+            126,
+            104
+        ]
+    },
+    "train_data58.jpg": {
+        "Temperature": [
+            462,
+            234,
+            199,
+            110
+        ],
+        "Humidity": [
+            537,
+            351,
+            124,
+            107
+        ]
+    },
+    "train_data300.jpg": {
+        "Temperature": [
+            509,
+            102,
+            277,
+            146
+        ],
+        "Humidity": [
+            614,
+            256,
+            178,
+            151
+        ]
+    },
+    "train_data301.jpg": {
+        "Temperature": [
+            438,
+            107,
+            308,
+            171
+        ],
+        "Humidity": [
+            554,
+            284,
+            201,
+            172
+        ]
+    },
+    "train_data59.jpg": {
+        "Temperature": [
+            463,
+            234,
+            195,
+            109
+        ],
+        "Humidity": [
+            535,
+            350,
+            127,
+            107
+        ]
+    },
+    "train_data71.jpg": {
+        "Temperature": [
+            471,
+            156,
+            195,
+            100
+        ],
+        "Humidity": [
+            542,
+            261,
+            128,
+            106
+        ]
+    },
+    "train_data65.jpg": {
+        "Temperature": [
+            347,
+            129,
+            229,
+            119
+        ],
+        "Humidity": [
+            434,
+            257,
+            147,
+            116
+        ]
+    },
+    "train_data117.jpg": {
+        "Temperature": [
+            660,
+            241,
+            196,
+            107
+        ],
+        "Humidity": [
+            734,
+            353,
+            129,
+            113
+        ]
+    },
+    "train_data103.jpg": {
+        "Temperature": [
+            581,
+            141,
+            196,
+            106
+        ],
+        "Humidity": [
+            655,
+            255,
+            125,
+            107
+        ]
+    },
+    "train_data249.jpg": {
+        "Temperature": [
+            486,
+            147,
+            267,
+            146
+        ],
+        "Humidity": [
+            587,
+            305,
+            172,
+            146
+        ]
+    },
+    "train_data261.jpg": {
+        "Temperature": [
+            691,
+            103,
+            196,
+            106
+        ],
+        "Humidity": [
+            764,
+            211,
+            124,
+            106
+        ]
+    },
+    "train_data275.jpg": {
+        "Temperature": [
+            343,
+            257,
+            195,
+            104
+        ],
+        "Humidity": [
+            412,
+            367,
+            127,
+            106
+        ]
+    },
+    "train_data288.jpg": {
+        "Temperature": [
+            474,
+            101,
+            277,
+            143
+        ],
+        "Humidity": [
+            578,
+            250,
+            180,
+            144
+        ]
+    },
+    "train_data263.jpg": {
+        "Temperature": [
+            693,
+            101,
+            197,
+            107
+        ],
+        "Humidity": [
+            764,
+            212,
+            125,
+            110
+        ]
+    },
+    "train_data277.jpg": {
+        "Temperature": [
+            489,
+            175,
+            211,
+            116
+        ],
+        "Humidity": [
+            568,
+            295,
+            134,
+            116
+        ]
+    },
+    "train_data115.jpg": {
+        "Temperature": [
+            666,
+            185,
+            213,
+            121
+        ],
+        "Humidity": [
+            748,
+            309,
+            133,
+            118
+        ]
+    },
+    "train_data101.jpg": {
+        "Temperature": [
+            577,
+            140,
+            202,
+            107
+        ],
+        "Humidity": [
+            654,
+            256,
+            130,
+            106
+        ]
+    },
+    "train_data129.jpg": {
+        "Temperature": [
+            509,
+            171,
+            229,
+            124
+        ],
+        "Humidity": [
+            598,
+            299,
+            144,
+            125
+        ]
+    },
+    "train_data73.jpg": {
+        "Temperature": [
+            436,
+            163,
+            255,
+            132
+        ],
+        "Humidity": [
+            530,
+            304,
+            163,
+            140
+        ]
+    },
+    "train_data67.jpg": {
+        "Temperature": [
+            346,
+            130,
+            231,
+            118
+        ],
+        "Humidity": [
+            431,
+            254,
+            149,
+            119
+        ]
+    },
+    "train_data303.jpg": {
+        "Temperature": [
+            437,
+            110,
+            310,
+            165
+        ],
+        "Humidity": [
+            555,
+            289,
+            186,
+            167
+        ]
+    },
+    "train_data98.jpg": {
+        "Temperature": [
+            472,
+            230,
+            216,
+            118
+        ],
+        "Humidity": [
+            555,
+            354,
+            135,
+            116
+        ]
+    },
+    "train_data99.jpg": {
+        "Temperature": [
+            471,
+            229,
+            220,
+            116
+        ],
+        "Humidity": [
+            556,
+            352,
+            136,
+            117
+        ]
+    },
+    "train_data302.jpg": {
+        "Temperature": [
+            427,
+            110,
+            322,
+            171
+        ],
+        "Humidity": [
+            551,
+            291,
+            195,
+            163
+        ]
+    },
+    "train_data66.jpg": {
+        "Temperature": [
+            347,
+            128,
+            233,
+            120
+        ],
+        "Humidity": [
+            435,
+            251,
+            150,
+            123
+        ]
+    },
+    "train_data72.jpg": {
+        "Temperature": [
+            467,
+            154,
+            200,
+            106
+        ],
+        "Humidity": [
+            538,
+            262,
+            133,
+            106
+        ]
+    },
+    "train_data128.jpg": {
+        "Temperature": [
+            386,
+            191,
+            234,
+            124
+        ],
+        "Humidity": [
+            470,
+            324,
+            144,
+            126
+        ]
+    },
+    "train_data100.jpg": {
+        "Temperature": [
+            474,
+            227,
+            214,
+            117
+        ],
+        "Humidity": [
+            553,
+            355,
+            139,
+            118
+        ]
+    },
+    "train_data114.jpg": {
+        "Temperature": [
+            674,
+            187,
+            206,
+            118
+        ],
+        "Humidity": [
+            748,
+            310,
+            136,
+            117
+        ]
+    },
+    "train_data276.jpg": {
+        "Temperature": [
+            343,
+            256,
+            199,
+            104
+        ],
+        "Humidity": [
+            412,
+            365,
+            124,
+            106
+        ]
+    },
+    "train_data262.jpg": {
+        "Temperature": [
+            695,
+            102,
+            192,
+            105
+        ],
+        "Humidity": [
+            760,
+            211,
+            125,
+            106
+        ]
+    },
+    "train_data289.jpg": {
+        "Temperature": [
+            457,
+            119,
+            238,
+            129
+        ],
+        "Humidity": [
+            544,
+            251,
+            155,
+            131
+        ]
+    },
+    "train_data299.jpg": {
+        "Temperature": [
+            511,
+            105,
+            275,
+            145
+        ],
+        "Humidity": [
+            611,
+            257,
+            178,
+            152
+        ]
+    },
+    "train_data266.jpg": {
+        "Temperature": [
+            462,
+            179,
+            262,
+            139
+        ],
+        "Humidity": [
+            559,
+            330,
             172,
             144
         ]
     },
-    "test_data1.png": {
+    "train_data272.jpg": {
         "Temperature": [
-            458,
-            121,
-            264,
-            139
+            623,
+            197,
+            204,
+            112
         ],
         "Humidity": [
-            548,
-            264,
-            176,
-            146
+            695,
+            311,
+            131,
+            114
         ]
     },
-    "test_data_copy.png": {
+    "train_data138.jpg": {
         "Temperature": [
-            425,
-            120,
-            296,
-            139
+            519,
+            213,
+            197,
+            105
         ],
         "Humidity": [
-            548,
-            266,
-            176,
+            590,
+            323,
+            128,
+            107
+        ]
+    },
+    "train_data110.jpg": {
+        "Temperature": [
+            513,
+            123,
+            221,
+            121
+        ],
+        "Humidity": [
+            594,
+            253,
+            143,
+            120
+        ]
+    },
+    "train_data104.jpg": {
+        "Temperature": [
+            581,
+            142,
+            199,
+            103
+        ],
+        "Humidity": [
+            651,
+            252,
+            133,
+            110
+        ]
+    },
+    "train_data76.jpg": {
+        "Temperature": [
+            434,
+            163,
+            252,
+            136
+        ],
+        "Humidity": [
+            529,
+            304,
+            160,
+            136
+        ]
+    },
+    "train_data62.jpg": {
+        "Temperature": [
+            506,
+            113,
+            291,
+            156
+        ],
+        "Humidity": [
+            616,
+            275,
+            184,
+            154
+        ]
+    },
+    "train_data89.jpg": {
+        "Temperature": [
+            345,
+            252,
+            219,
+            117
+        ],
+        "Humidity": [
+            425,
+            377,
+            142,
+            121
+        ]
+    },
+    "train_data88.jpg": {
+        "Temperature": [
+            499,
+            158,
+            211,
+            115
+        ],
+        "Humidity": [
+            578,
+            280,
+            135,
+            112
+        ]
+    },
+    "train_data63.jpg": {
+        "Temperature": [
+            507,
+            114,
+            285,
+            151
+        ],
+        "Humidity": [
+            616,
+            278,
+            180,
+            153
+        ]
+    },
+    "train_data77.jpg": {
+        "Temperature": [
+            343,
+            146,
+            193,
+            101
+        ],
+        "Humidity": [
+            417,
+            255,
+            120,
+            97
+        ]
+    },
+    "train_data105.jpg": {
+        "Temperature": [
+            510,
+            154,
+            264,
+            138
+        ],
+        "Humidity": [
+            607,
+            305,
+            172,
             144
         ]
     },
-    "train_data8.png": {
+    "train_data111.jpg": {
         "Temperature": [
-            458,
-            119,
-            267,
-            142
+            515,
+            121,
+            220,
+            124
         ],
         "Humidity": [
-            549,
-            266,
-            175,
-            145
+            593,
+            251,
+            141,
+            119
         ]
     },
-    "train_data10.png": {
+    "train_data139.jpg": {
         "Temperature": [
-            453,
+            518,
+            217,
+            197,
+            101
+        ],
+        "Humidity": [
+            593,
+            326,
             120,
-            270,
-            141
-        ],
-        "Humidity": [
-            546,
-            266,
-            177,
-            145
+            101
         ]
     },
-    "train_data9.png": {
+    "train_data273.jpg": {
         "Temperature": [
-            453,
-            123,
-            270,
+            343,
+            258,
+            200,
+            102
+        ],
+        "Humidity": [
+            414,
+            366,
+            127,
+            105
+        ]
+    },
+    "train_data267.jpg": {
+        "Temperature": [
+            461,
+            180,
+            266,
             133
         ],
         "Humidity": [
-            548,
-            265,
-            175,
+            554,
+            331,
+            178,
+            142
+        ]
+    },
+    "train_data298.jpg": {
+        "Temperature": [
+            514,
+            105,
+            269,
+            141
+        ],
+        "Humidity": [
+            618,
+            261,
+            177,
+            140
+        ]
+    },
+    "train_data259.jpg": {
+        "Temperature": [
+            458,
+            123,
+            248,
+            129
+        ],
+        "Humidity": [
+            545,
+            263,
+            158,
+            129
+        ]
+    },
+    "train_data271.jpg": {
+        "Temperature": [
+            630,
+            200,
+            192,
+            107
+        ],
+        "Humidity": [
+            699,
+            312,
+            131,
+            112
+        ]
+    },
+    "train_data265.jpg": {
+        "Temperature": [
+            460,
+            179,
+            267,
+            137
+        ],
+        "Humidity": [
+            565,
+            327,
+            161,
+            141
+        ]
+    },
+    "train_data107.jpg": {
+        "Temperature": [
+            511,
+            154,
+            263,
+            143
+        ],
+        "Humidity": [
+            612,
+            304,
+            164,
+            151
+        ]
+    },
+    "train_data113.jpg": {
+        "Temperature": [
+            667,
+            185,
+            213,
+            120
+        ],
+        "Humidity": [
+            748,
+            307,
+            48,
+            6
+        ]
+    },
+    "train_data49.jpg": {
+        "Temperature": [
+            523,
+            124,
+            226,
+            120
+        ],
+        "Humidity": [
+            599,
+            252,
+            151,
+            124
+        ]
+    },
+    "train_data61.jpg": {
+        "Temperature": [
+            513,
+            119,
+            281,
+            146
+        ],
+        "Humidity": [
+            615,
+            277,
+            180,
+            146
+        ]
+    },
+    "train_data75.jpg": {
+        "Temperature": [
+            439,
+            166,
+            248,
+            130
+        ],
+        "Humidity": [
+            528,
+            307,
+            158,
+            131
+        ]
+    },
+    "train_data304.jpg": {
+        "Temperature": [
+            439,
+            110,
+            308,
+            161
+        ],
+        "Humidity": [
+            549,
+            288,
+            197,
+            164
+        ]
+    },
+    "train_data74.jpg": {
+        "Temperature": [
+            435,
+            161,
+            255,
+            138
+        ],
+        "Humidity": [
+            524,
+            302,
+            162,
+            136
+        ]
+    },
+    "train_data60.jpg": {
+        "Temperature": [
+            463,
+            238,
+            197,
+            102
+        ],
+        "Humidity": [
+            537,
+            348,
+            121,
+            108
+        ]
+    },
+    "train_data48.jpg": {
+        "Temperature": [
+            499,
+            153,
+            228,
+            122
+        ],
+        "Humidity": [
+            583,
+            282,
+            144,
+            123
+        ]
+    },
+    "train_data112.jpg": {
+        "Temperature": [
+            514,
+            122,
+            219,
+            124
+        ],
+        "Humidity": [
+            592,
+            253,
+            145,
+            119
+        ]
+    },
+    "train_data106.jpg": {
+        "Temperature": [
+            510,
+            155,
+            271,
+            144
+        ],
+        "Humidity": [
+            610,
+            307,
+            168,
             143
         ]
     },
-    "train_data2.png": {
+    "train_data264.jpg": {
+        "Temperature": [
+            693,
+            104,
+            193,
+            102
+        ],
+        "Humidity": [
+            766,
+            213,
+            123,
+            106
+        ]
+    },
+    "train_data270.jpg": {
+        "Temperature": [
+            624,
+            201,
+            201,
+            104
+        ],
+        "Humidity": [
+            699,
+            313,
+            134,
+            112
+        ]
+    },
+    "train_data258.jpg": {
         "Temperature": [
             455,
-            120,
-            268,
-            140
+            119,
+            247,
+            132
         ],
         "Humidity": [
             546,
+            259,
+            157,
+            133
+        ]
+    },
+    "train_data296.jpg": {
+        "Temperature": [
+            508,
+            234,
+            192,
+            98
+        ],
+        "Humidity": [
+            574,
+            338,
+            122,
+            107
+        ]
+    },
+    "train_data282.jpg": {
+        "Temperature": [
+            456,
+            93,
+            249,
+            127
+        ],
+        "Humidity": [
+            547,
+            228,
+            161,
+            134
+        ]
+    },
+    "train_data255.jpg": {
+        "Temperature": [
+            488,
+            132,
+            246,
+            133
+        ],
+        "Humidity": [
+            578,
+            273,
+            157,
+            134
+        ]
+    },
+    "train_data241.jpg": {
+        "Temperature": [
+            377,
+            287,
+            203,
+            108
+        ],
+        "Humidity": [
+            448,
+            401,
+            127,
+            111
+        ]
+    },
+    "train_data269.jpg": {
+        "Temperature": [
+            630,
+            199,
+            197,
+            110
+        ],
+        "Humidity": [
+            697,
+            311,
+            135,
+            110
+        ]
+    },
+    "train_data123.jpg": {
+        "Temperature": [
+            499,
+            252,
+            198,
+            104
+        ],
+        "Humidity": [
+            573,
+            363,
+            128,
+            111
+        ]
+    },
+    "train_data137.jpg": {
+        "Temperature": [
+            518,
+            213,
+            196,
+            106
+        ],
+        "Humidity": [
+            589,
+            319,
+            123,
+            110
+        ]
+    },
+    "train_data45.jpg": {
+        "Temperature": [
+            496,
+            155,
+            183,
+            126
+        ],
+        "Humidity": [
+            588,
+            281,
+            140,
+            117
+        ]
+    },
+    "train_data51.jpg": {
+        "Temperature": [
+            518,
+            116,
+            226,
+            128
+        ],
+        "Humidity": [
+            599,
+            253,
+            148,
+            125
+        ]
+    },
+    "train_data79.jpg": {
+        "Temperature": [
+            340,
+            146,
+            196,
+            98
+        ],
+        "Humidity": [
+            417,
+            252,
+            119,
+            102
+        ]
+    },
+    "train_data86.jpg": {
+        "Temperature": [
+            500,
+            155,
+            209,
+            118
+        ],
+        "Humidity": [
+            577,
+            281,
+            133,
+            107
+        ]
+    },
+    "train_data92.jpg": {
+        "Temperature": [
+            345,
+            250,
+            224,
+            120
+        ],
+        "Humidity": [
+            424,
+            376,
+            142,
+            120
+        ]
+    },
+    "train_data93.jpg": {
+        "Temperature": [
+            452,
+            182,
+            239,
+            124
+        ],
+        "Humidity": [
+            549,
+            312,
+            146,
+            126
+        ]
+    },
+    "train_data87.jpg": {
+        "Temperature": [
+            494,
+            155,
+            215,
+            116
+        ],
+        "Humidity": [
+            574,
+            276,
+            139,
+            114
+        ]
+    },
+    "train_data78.jpg": {
+        "Temperature": [
+            337,
+            146,
+            199,
+            99
+        ],
+        "Humidity": [
+            410,
+            251,
+            127,
+            107
+        ]
+    },
+    "train_data50.jpg": {
+        "Temperature": [
+            520,
+            121,
+            226,
+            124
+        ],
+        "Humidity": [
+            598,
+            250,
+            146,
+            127
+        ]
+    },
+    "train_data44.jpg": {
+        "Temperature": [
+            403,
+            141,
+            266,
+            146
+        ],
+        "Humidity": [
+            508,
+            294,
+            167,
+            145
+        ]
+    },
+    "train_data136.jpg": {
+        "Temperature": [
+            670,
+            209,
+            195,
+            102
+        ],
+        "Humidity": [
+            741,
+            315,
+            125,
+            105
+        ]
+    },
+    "train_data122.jpg": {
+        "Temperature": [
+            500,
+            249,
+            196,
+            108
+        ],
+        "Humidity": [
+            572,
+            364,
+            127,
+            108
+        ]
+    },
+    "train_data268.jpg": {
+        "Temperature": [
+            462,
+            178,
             265,
+            140
+        ],
+        "Humidity": [
+            559,
+            328,
+            167,
+            142
+        ]
+    },
+    "train_data240.jpg": {
+        "Temperature": [
+            426,
+            172,
+            215,
+            112
+        ],
+        "Humidity": [
+            505,
+            295,
+            136,
+            109
+        ]
+    },
+    "train_data254.jpg": {
+        "Temperature": [
+            487,
+            133,
+            248,
+            131
+        ],
+        "Humidity": [
+            568,
+            273,
+            163,
+            134
+        ]
+    },
+    "train_data283.jpg": {
+        "Temperature": [
+            454,
+            93,
+            254,
+            128
+        ],
+        "Humidity": [
+            549,
+            230,
+            161,
+            131
+        ]
+    },
+    "train_data297.jpg": {
+        "Temperature": [
+            512,
+            102,
+            272,
+            146
+        ],
+        "Humidity": [
+            616,
+            261,
+            173,
+            147
+        ]
+    },
+    "train_data281.jpg": {
+        "Temperature": [
+            455,
+            94,
+            253,
+            125
+        ],
+        "Humidity": [
+            543,
+            231,
+            167,
+            131
+        ]
+    },
+    "train_data295.jpg": {
+        "Temperature": [
+            511,
+            235,
+            61,
+            112
+        ],
+        "Humidity": [
+            575,
+            339,
+            125,
+            110
+        ]
+    },
+    "train_data242.jpg": {
+        "Temperature": [
+            377,
+            287,
+            200,
+            108
+        ],
+        "Humidity": [
+            445,
+            400,
+            135,
+            112
+        ]
+    },
+    "train_data256.jpg": {
+        "Temperature": [
+            451,
+            129,
+            297,
+            133
+        ],
+        "Humidity": [
+            572,
+            272,
+            162,
+            136
+        ]
+    },
+    "train_data134.jpg": {
+        "Temperature": [
+            646,
+            208,
+            227,
+            105
+        ],
+        "Humidity": [
+            620,
+            205,
+            244,
+            105
+        ]
+    },
+    "train_data120.jpg": {
+        "Temperature": [
+            653,
+            240,
+            205,
+            111
+        ],
+        "Humidity": [
+            730,
+            354,
+            126,
+            113
+        ]
+    },
+    "train_data108.jpg": {
+        "Temperature": [
+            510,
+            153,
+            266,
+            150
+        ],
+        "Humidity": [
+            609,
+            310,
+            172,
+            140
+        ]
+    },
+    "train_data52.jpg": {
+        "Temperature": [
+            517,
+            122,
+            229,
+            123
+        ],
+        "Humidity": [
+            604,
+            253,
+            144,
+            123
+        ]
+    },
+    "train_data46.jpg": {
+        "Temperature": [
+            467,
+            153,
+            258,
+            121
+        ],
+        "Humidity": [
+            608,
+            289,
+            149,
+            119
+        ]
+    },
+    "train_data91.jpg": {
+        "Temperature": [
+            346,
+            251,
+            85,
+            129
+        ],
+        "Humidity": [
+            428,
+            377,
+            136,
+            121
+        ]
+    },
+    "train_data85.jpg": {
+        "Temperature": [
+            501,
+            157,
+            207,
+            115
+        ],
+        "Humidity": [
+            576,
+            276,
+            134,
+            111
+        ]
+    },
+    "train_data84.jpg": {
+        "Temperature": [
+            557,
+            229,
+            232,
+            128
+        ],
+        "Humidity": [
+            647,
+            361,
+            144,
+            129
+        ]
+    },
+    "train_data90.jpg": {
+        "Temperature": [
+            342,
+            253,
+            225,
+            116
+        ],
+        "Humidity": [
+            427,
+            377,
+            138,
+            117
+        ]
+    },
+    "train_data47.jpg": {
+        "Temperature": [
+            498,
+            154,
+            230,
+            119
+        ],
+        "Humidity": [
+            583,
+            283,
+            141,
+            119
+        ]
+    },
+    "train_data53.jpg": {
+        "Temperature": [
+            508,
+            169,
+            248,
+            125
+        ],
+        "Humidity": [
+            613,
+            304,
+            150,
+            130
+        ]
+    },
+    "train_data109.jpg": {
+        "Temperature": [
+            508,
+            124,
+            223,
+            118
+        ],
+        "Humidity": [
+            597,
+            250,
+            135,
+            119
+        ]
+    },
+    "train_data121.jpg": {
+        "Temperature": [
+            501,
+            251,
+            193,
+            108
+        ],
+        "Humidity": [
+            574,
+            362,
+            125,
+            108
+        ]
+    },
+    "train_data135.jpg": {
+        "Temperature": [
+            670,
+            209,
+            197,
+            107
+        ],
+        "Humidity": [
+            741,
+            317,
+            128,
+            109
+        ]
+    },
+    "train_data257.jpg": {
+        "Temperature": [
+            460,
+            124,
+            247,
+            128
+        ],
+        "Humidity": [
+            550,
+            259,
+            158,
+            132
+        ]
+    },
+    "train_data243.jpg": {
+        "Temperature": [
+            376,
+            288,
+            199,
+            107
+        ],
+        "Humidity": [
+            446,
+            400,
+            129,
+            110
+        ]
+    },
+    "train_data294.jpg": {
+        "Temperature": [
+            505,
+            235,
+            196,
+            97
+        ],
+        "Humidity": [
+            578,
+            341,
+            127,
+            106
+        ]
+    },
+    "train_data280.jpg": {
+        "Temperature": [
+            486,
+            176,
+            214,
+            115
+        ],
+        "Humidity": [
+            567,
+            296,
+            131,
+            111
+        ]
+    },
+    "train_data284.jpg": {
+        "Temperature": [
+            450,
+            92,
+            255,
+            132
+        ],
+        "Humidity": [
+            545,
+            228,
+            162,
+            136
+        ]
+    },
+    "train_data290.jpg": {
+        "Temperature": [
+            455,
+            119,
+            239,
+            126
+        ],
+        "Humidity": [
+            548,
+            253,
+            150,
+            125
+        ]
+    },
+    "train_data247.jpg": {
+        "Temperature": [
+            351,
+            190,
+            257,
+            130
+        ],
+        "Humidity": [
+            447,
+            331,
+            161,
+            133
+        ]
+    },
+    "train_data253.jpg": {
+        "Temperature": [
+            486,
+            130,
+            248,
+            136
+        ],
+        "Humidity": [
+            579,
+            272,
+            157,
+            135
+        ]
+    },
+    "train_data119.jpg": {
+        "Temperature": [
+            662,
+            241,
+            193,
+            108
+        ],
+        "Humidity": [
+            734,
+            354,
+            128,
+            109
+        ]
+    },
+    "train_data131.jpg": {
+        "Temperature": [
+            507,
+            173,
+            231,
+            120
+        ],
+        "Humidity": [
+            594,
+            299,
+            146,
+            122
+        ]
+    },
+    "train_data125.jpg": {
+        "Temperature": [
+            389,
+            194,
+            230,
+            122
+        ],
+        "Humidity": [
+            465,
+            318,
+            149,
+            129
+        ]
+    },
+    "train_data57.jpg": {
+        "Temperature": [
+            459,
+            235,
+            198,
+            105
+        ],
+        "Humidity": [
+            528,
+            348,
+            133,
+            112
+        ]
+    },
+    "train_data43.jpg": {
+        "Temperature": [
+            366,
+            140,
+            309,
+            145
+        ],
+        "Humidity": [
+            499,
+            295,
+            174,
+            145
+        ]
+    },
+    "train_data94.jpg": {
+        "Temperature": [
+            446,
+            182,
+            244,
+            125
+        ],
+        "Humidity": [
+            550,
+            313,
+            147,
+            126
+        ]
+    },
+    "train_data80.jpg": {
+        "Temperature": [
+            337,
+            147,
+            200,
+            102
+        ],
+        "Humidity": [
+            415,
+            251,
+            120,
+            103
+        ]
+    },
+    "train_data81.jpg": {
+        "Temperature": [
+            554,
+            227,
+            233,
+            130
+        ],
+        "Humidity": [
+            645,
+            358,
+            146,
+            130
+        ]
+    },
+    "train_data95.jpg": {
+        "Temperature": [
+            455,
+            183,
+            237,
+            126
+        ],
+        "Humidity": [
+            542,
+            314,
+            151,
+            126
+        ]
+    },
+    "train_data42.jpg": {
+        "Temperature": [
+            399,
+            141,
+            273,
+            149
+        ],
+        "Humidity": [
+            502,
+            294,
+            169,
+            142
+        ]
+    },
+    "train_data56.jpg": {
+        "Temperature": [
+            514,
+            170,
+            244,
+            129
+        ],
+        "Humidity": [
+            605,
+            305,
+            159,
+            130
+        ]
+    },
+    "train_data124.jpg": {
+        "Temperature": [
+            496,
+            251,
+            206,
+            108
+        ],
+        "Humidity": [
+            575,
+            363,
+            124,
+            110
+        ]
+    },
+    "train_data130.jpg": {
+        "Temperature": [
+            506,
+            173,
+            232,
+            120
+        ],
+        "Humidity": [
+            595,
+            299,
+            147,
+            126
+        ]
+    },
+    "train_data118.jpg": {
+        "Temperature": [
+            659,
+            239,
+            196,
+            110
+        ],
+        "Humidity": [
+            735,
+            355,
+            122,
+            108
+        ]
+    },
+    "train_data252.jpg": {
+        "Temperature": [
+            483,
+            148,
+            271,
+            146
+        ],
+        "Humidity": [
+            587,
+            303,
+            171,
+            144
+        ]
+    },
+    "train_data246.jpg": {
+        "Temperature": [
+            349,
+            192,
+            260,
+            127
+        ],
+        "Humidity": [
+            446,
+            329,
+            167,
+            138
+        ]
+    },
+    "train_data291.jpg": {
+        "Temperature": [
+            453,
+            119,
+            239,
+            129
+        ],
+        "Humidity": [
+            542,
+            253,
+            156,
+            124
+        ]
+    },
+    "train_data285.jpg": {
+        "Temperature": [
+            476,
+            106,
+            274,
+            135
+        ],
+        "Humidity": [
+            575,
+            251,
+            181,
+            143
+        ]
+    },
+    "train_data293.jpg": {
+        "Temperature": [
+            509,
+            233,
+            190,
+            99
+        ],
+        "Humidity": [
+            581,
+            339,
+            120,
+            109
+        ]
+    },
+    "train_data287.jpg": {
+        "Temperature": [
+            470,
+            103,
+            281,
+            135
+        ],
+        "Humidity": [
+            576,
+            253,
+            184,
+            145
+        ]
+    },
+    "train_data278.jpg": {
+        "Temperature": [
+            482,
+            177,
+            218,
+            112
+        ],
+        "Humidity": [
+            569,
+            298,
+            136,
+            113
+        ]
+    },
+    "train_data250.jpg": {
+        "Temperature": [
+            482,
+            144,
+            275,
+            154
+        ],
+        "Humidity": [
+            581,
+            301,
+            177,
+            144
+        ]
+    },
+    "train_data244.jpg": {
+        "Temperature": [
+            377,
+            288,
+            200,
+            110
+        ],
+        "Humidity": [
+            450,
+            400,
+            123,
+            113
+        ]
+    },
+    "train_data126.jpg": {
+        "Temperature": [
+            381,
+            192,
+            238,
+            119
+        ],
+        "Humidity": [
+            462,
+            321,
+            155,
+            128
+        ]
+    },
+    "train_data132.jpg": {
+        "Temperature": [
+            508,
+            169,
+            233,
+            126
+        ],
+        "Humidity": [
+            594,
+            301,
+            145,
+            122
+        ]
+    },
+    "train_data68.jpg": {
+        "Temperature": [
+            315,
+            127,
+            263,
+            119
+        ],
+        "Humidity": [
+            424,
+            253,
+            155,
+            122
+        ]
+    },
+    "train_data40.jpg": {
+        "Temperature": [
+            521,
+            197,
+            252,
+            119
+        ],
+        "Humidity": [
+            634,
+            323,
+            141,
+            121
+        ]
+    },
+    "train_data54.jpg": {
+        "Temperature": [
+            485,
+            169,
+            272,
+            126
+        ],
+        "Humidity": [
+            606,
+            306,
+            160,
+            133
+        ]
+    },
+    "train_data83.jpg": {
+        "Temperature": [
+            543,
+            228,
+            245,
+            128
+        ],
+        "Humidity": [
+            649,
+            362,
+            140,
+            124
+        ]
+    },
+    "train_data97.jpg": {
+        "Temperature": [
+            464,
+            228,
+            223,
+            119
+        ],
+        "Humidity": [
+            550,
+            350,
+            140,
+            123
+        ]
+    },
+    "train_data96.jpg": {
+        "Temperature": [
+            449,
+            183,
+            244,
+            128
+        ],
+        "Humidity": [
+            546,
+            316,
+            152,
+            126
+        ]
+    },
+    "train_data82.jpg": {
+        "Temperature": [
+            560,
+            230,
+            229,
+            125
+        ],
+        "Humidity": [
+            650,
+            361,
+            144,
+            130
+        ]
+    },
+    "train_data55.jpg": {
+        "Temperature": [
+            500,
+            169,
+            258,
+            132
+        ],
+        "Humidity": [
+            607,
+            304,
+            157,
+            136
+        ]
+    },
+    "train_data41.jpg": {
+        "Temperature": [
+            387,
+            140,
+            287,
+            150
+        ],
+        "Humidity": [
+            504,
+            294,
+            169,
+            147
+        ]
+    },
+    "train_data69.jpg": {
+        "Temperature": [
+            464,
+            156,
+            203,
+            101
+        ],
+        "Humidity": [
+            540,
+            261,
+            129,
+            107
+        ]
+    },
+    "train_data133.jpg": {
+        "Temperature": [
+            655,
+            209,
+            210,
+            106
+        ],
+        "Humidity": [
+            743,
+            318,
+            127,
+            111
+        ]
+    },
+    "train_data127.jpg": {
+        "Temperature": [
+            378,
+            189,
+            243,
+            127
+        ],
+        "Humidity": [
+            463,
+            320,
+            153,
+            131
+        ]
+    },
+    "train_data245.jpg": {
+        "Temperature": [
+            345,
+            190,
+            265,
+            135
+        ],
+        "Humidity": [
+            449,
+            334,
+            157,
+            134
+        ]
+    },
+    "train_data251.jpg": {
+        "Temperature": [
+            474,
+            142,
+            280,
+            152
+        ],
+        "Humidity": [
+            587,
+            301,
+            169,
+            148
+        ]
+    },
+    "train_data279.jpg": {
+        "Temperature": [
+            480,
+            175,
+            218,
+            117
+        ],
+        "Humidity": [
+            568,
+            295,
+            135,
+            115
+        ]
+    },
+    "train_data286.jpg": {
+        "Temperature": [
+            468,
+            104,
+            285,
+            136
+        ],
+        "Humidity": [
+            579,
+            249,
             178,
             145
         ]
     },
-    "train_data3.png": {
+    "train_data292.jpg": {
         "Temperature": [
-            454,
-            122,
-            269,
-            139
+            449,
+            118,
+            243,
+            126
         ],
         "Humidity": [
-            549,
-            264,
-            176,
+            542,
+            250,
+            157,
+            130
+        ]
+    },
+    "train_data2.jpg": {
+        "Temperature": [
+            598,
+            150,
+            195,
+            106
+        ],
+        "Humidity": [
+            677,
+            259,
+            117,
+            103
+        ]
+    },
+    "train_data236.jpg": {
+        "Temperature": [
+            476,
+            272,
+            220,
+            114
+        ],
+        "Humidity": [
+            562,
+            393,
+            134,
+            117
+        ]
+    },
+    "train_data222.jpg": {
+        "Temperature": [
+            469,
+            144,
+            293,
+            154
+        ],
+        "Humidity": [
+            583,
+            309,
+            181,
+            157
+        ]
+    },
+    "train_data183.jpg": {
+        "Temperature": [
+            503,
+            154,
+            232,
+            122
+        ],
+        "Humidity": [
+            592,
+            280,
+            147,
+            122
+        ]
+    },
+    "train_data197.jpg": {
+        "Temperature": [
+            714,
+            114,
+            201,
+            105
+        ],
+        "Humidity": [
+            791,
+            223,
+            127,
+            113
+        ]
+    },
+    "train_data140.jpg": {
+        "Temperature": [
+            514,
+            214,
+            199,
+            105
+        ],
+        "Humidity": [
+            592,
+            323,
+            128,
+            110
+        ]
+    },
+    "train_data154.jpg": {
+        "Temperature": [
+            431,
+            198,
+            201,
+            106
+        ],
+        "Humidity": [
+            506,
+            308,
+            126,
+            104
+        ]
+    },
+    "train_data168.jpg": {
+        "Temperature": [
+            463,
+            147,
+            287,
+            147
+        ],
+        "Humidity": [
+            579,
+            300,
+            172,
             150
         ]
     },
-    "train_data4.png": {
+    "train_data26.jpg": {
         "Temperature": [
-            461,
-            119,
-            260,
-            144
+            629,
+            168,
+            271,
+            136
         ],
         "Humidity": [
-            548,
-            266,
-            177,
+            735,
+            312,
+            171,
             145
         ]
     },
-    "train_data5.png": {
+    "train_data32.jpg": {
         "Temperature": [
-            458,
-            121,
-            265,
-            140
+            439,
+            196,
+            239,
+            126
         ],
         "Humidity": [
-            553,
-            266,
-            170,
-            147
+            531,
+            325,
+            149,
+            127
         ]
     },
-    "train_data7.png": {
+    "train_data33.jpg": {
         "Temperature": [
-            459,
+            355,
+            154,
+            277,
+            141
+        ],
+        "Humidity": [
+            455,
+            302,
+            173,
+            143
+        ]
+    },
+    "train_data27.jpg": {
+        "Temperature": [
+            638,
+            170,
+            260,
+            134
+        ],
+        "Humidity": [
+            733,
+            314,
+            173,
+            145
+        ]
+    },
+    "train_data169.jpg": {
+        "Temperature": [
+            500,
+            149,
+            216,
+            115
+        ],
+        "Humidity": [
+            583,
+            265,
+            135,
+            117
+        ]
+    },
+    "train_data155.jpg": {
+        "Temperature": [
+            431,
+            200,
+            198,
+            104
+        ],
+        "Humidity": [
+            509,
+            307,
             121,
-            263,
+            105
+        ]
+    },
+    "train_data141.jpg": {
+        "Temperature": [
+            400,
+            249,
+            194,
+            101
+        ],
+        "Humidity": [
+            468,
+            356,
+            122,
+            103
+        ]
+    },
+    "train_data196.jpg": {
+        "Temperature": [
+            248,
+            102,
+            260,
+            131
+        ],
+        "Humidity": [
+            338,
+            238,
+            169,
             139
+        ]
+    },
+    "train_data182.jpg": {
+        "Temperature": [
+            498,
+            154,
+            235,
+            124
+        ],
+        "Humidity": [
+            595,
+            279,
+            140,
+            119
+        ]
+    },
+    "train_data223.jpg": {
+        "Temperature": [
+            458,
+            147,
+            305,
+            149
+        ],
+        "Humidity": [
+            580,
+            306,
+            187,
+            162
+        ]
+    },
+    "train_data237.jpg": {
+        "Temperature": [
+            414,
+            170,
+            227,
+            116
+        ],
+        "Humidity": [
+            504,
+            292,
+            142,
+            121
+        ]
+    },
+    "train_data3.jpg": {
+        "Temperature": [
+            596,
+            150,
+            194,
+            106
+        ],
+        "Humidity": [
+            672,
+            257,
+            127,
+            106
+        ]
+    },
+    "train_data1.jpg": {
+        "Temperature": [
+            594,
+            147,
+            197,
+            108
+        ],
+        "Humidity": [
+            671,
+            255,
+            129,
+            107
+        ]
+    },
+    "train_data221.jpg": {
+        "Temperature": [
+            471,
+            147,
+            289,
+            150
+        ],
+        "Humidity": [
+            581,
+            306,
+            187,
+            160
+        ]
+    },
+    "train_data235.jpg": {
+        "Temperature": [
+            475,
+            271,
+            222,
+            115
+        ],
+        "Humidity": [
+            562,
+            394,
+            143,
+            120
+        ]
+    },
+    "train_data209.jpg": {
+        "Temperature": [
+            522,
+            157,
+            226,
+            120
+        ],
+        "Humidity": [
+            612,
+            281,
+            138,
+            119
+        ]
+    },
+    "train_data194.jpg": {
+        "Temperature": [
+            246,
+            108,
+            258,
+            124
+        ],
+        "Humidity": [
+            345,
+            241,
+            159,
+            135
+        ]
+    },
+    "train_data180.jpg": {
+        "Temperature": [
+            407,
+            117,
+            206,
+            109
+        ],
+        "Humidity": [
+            480,
+            225,
+            131,
+            110
+        ]
+    },
+    "train_data157.jpg": {
+        "Temperature": [
+            452,
+            200,
+            248,
+            137
         ],
         "Humidity": [
             546,
-            264,
+            339,
+            153,
+            135
+        ]
+    },
+    "train_data143.jpg": {
+        "Temperature": [
+            393,
+            248,
+            198,
+            98
+        ],
+        "Humidity": [
+            469,
+            352,
+            125,
+            106
+        ]
+    },
+    "train_data31.jpg": {
+        "Temperature": [
+            435,
+            196,
+            243,
+            124
+        ],
+        "Humidity": [
+            535,
+            330,
+            144,
+            115
+        ]
+    },
+    "train_data25.jpg": {
+        "Temperature": [
+            634,
+            172,
+            274,
+            137
+        ],
+        "Humidity": [
+            739,
+            318,
+            174,
+            138
+        ]
+    },
+    "train_data19.jpg": {
+        "Temperature": [
+            593,
+            179,
+            247,
+            121
+        ],
+        "Humidity": [
+            686,
+            313,
+            162,
+            127
+        ]
+    },
+    "train_data18.jpg": {
+        "Temperature": [
+            599,
             177,
+            241,
+            125
+        ],
+        "Humidity": [
+            689,
+            311,
+            155,
+            130
+        ]
+    },
+    "train_data24.jpg": {
+        "Temperature": [
+            432,
+            144,
+            208,
+            103
+        ],
+        "Humidity": [
+            516,
+            254,
+            132,
+            107
+        ]
+    },
+    "train_data30.jpg": {
+        "Temperature": [
+            446,
+            196,
+            233,
+            123
+        ],
+        "Humidity": [
+            529,
+            325,
+            152,
+            130
+        ]
+    },
+    "train_data142.jpg": {
+        "Temperature": [
+            396,
+            249,
+            197,
+            103
+        ],
+        "Humidity": [
+            466,
+            355,
+            124,
+            102
+        ]
+    },
+    "train_data156.jpg": {
+        "Temperature": [
+            429,
+            199,
+            203,
+            107
+        ],
+        "Humidity": [
+            506,
+            306,
+            127,
+            109
+        ]
+    },
+    "train_data181.jpg": {
+        "Temperature": [
+            499,
+            150,
+            237,
+            126
+        ],
+        "Humidity": [
+            590,
+            282,
+            148,
+            121
+        ]
+    },
+    "train_data195.jpg": {
+        "Temperature": [
+            249,
+            104,
+            255,
+            128
+        ],
+        "Humidity": [
+            341,
+            240,
+            163,
+            133
+        ]
+    },
+    "train_data208.jpg": {
+        "Temperature": [
+            463,
+            241,
+            239,
+            119
+        ],
+        "Humidity": [
+            555,
+            368,
+            149,
+            125
+        ]
+    },
+    "train_data234.jpg": {
+        "Temperature": [
+            485,
+            271,
+            214,
+            117
+        ],
+        "Humidity": [
+            564,
+            394,
+            137,
+            118
+        ]
+    },
+    "train_data220.jpg": {
+        "Temperature": [
+            436,
+            211,
+            231,
+            119
+        ],
+        "Humidity": [
+            516,
+            331,
+            145,
+            122
+        ]
+    },
+    "train_data4.jpg": {
+        "Temperature": [
+            596,
+            151,
+            150,
+            106
+        ],
+        "Humidity": [
+            675,
+            255,
+            122,
+            109
+        ]
+    },
+    "train_data218.jpg": {
+        "Temperature": [
+            433,
+            210,
+            228,
+            119
+        ],
+        "Humidity": [
+            520,
+            332,
+            142,
+            122
+        ]
+    },
+    "train_data224.jpg": {
+        "Temperature": [
+            471,
+            144,
+            292,
+            155
+        ],
+        "Humidity": [
+            582,
+            305,
+            183,
+            158
+        ]
+    },
+    "train_data230.jpg": {
+        "Temperature": [
+            503,
+            234,
+            221,
+            112
+        ],
+        "Humidity": [
+            584,
+            353,
+            139,
+            123
+        ]
+    },
+    "train_data191.jpg": {
+        "Temperature": [
+            625,
+            116,
+            243,
+            132
+        ],
+        "Humidity": [
+            718,
+            252,
+            150,
+            136
+        ]
+    },
+    "train_data185.jpg": {
+        "Temperature": [
+            642,
+            188,
+            234,
+            124
+        ],
+        "Humidity": [
+            730,
+            315,
+            146,
+            130
+        ]
+    },
+    "train_data152.jpg": {
+        "Temperature": [
+            302,
+            219,
+            256,
+            131
+        ],
+        "Humidity": [
+            402,
+            356,
+            153,
+            135
+        ]
+    },
+    "train_data146.jpg": {
+        "Temperature": [
+            629,
+            232,
+            249,
+            135
+        ],
+        "Humidity": [
+            727,
+            368,
+            155,
+            145
+        ]
+    },
+    "train_data34.jpg": {
+        "Temperature": [
+            355,
+            150,
+            275,
+            145
+        ],
+        "Humidity": [
+            460,
+            302,
+            169,
+            145
+        ]
+    },
+    "train_data20.jpg": {
+        "Temperature": [
+            592,
+            173,
+            250,
+            128
+        ],
+        "Humidity": [
+            684,
+            310,
+            161,
+            133
+        ]
+    },
+    "train_data21.jpg": {
+        "Temperature": [
+            423,
+            142,
+            214,
+            103
+        ],
+        "Humidity": [
+            514,
+            253,
+            135,
+            106
+        ]
+    },
+    "train_data35.jpg": {
+        "Temperature": [
+            357,
+            153,
+            273,
+            143
+        ],
+        "Humidity": [
+            457,
+            302,
+            177,
+            145
+        ]
+    },
+    "train_data147.jpg": {
+        "Temperature": [
+            634,
+            231,
+            249,
+            136
+        ],
+        "Humidity": [
+            724,
+            368,
+            156,
+            146
+        ]
+    },
+    "train_data153.jpg": {
+        "Temperature": [
+            436,
+            200,
+            193,
+            102
+        ],
+        "Humidity": [
+            510,
+            309,
+            118,
+            104
+        ]
+    },
+    "train_data184.jpg": {
+        "Temperature": [
+            504,
+            154,
+            230,
+            123
+        ],
+        "Humidity": [
+            593,
+            280,
+            146,
+            121
+        ]
+    },
+    "train_data190.jpg": {
+        "Temperature": [
+            628,
+            115,
+            240,
+            137
+        ],
+        "Humidity": [
+            722,
+            253,
+            149,
+            136
+        ]
+    },
+    "train_data231.jpg": {
+        "Temperature": [
+            502,
+            233,
+            219,
+            119
+        ],
+        "Humidity": [
+            582,
+            355,
+            142,
+            123
+        ]
+    },
+    "train_data225.jpg": {
+        "Temperature": [
+            456,
+            195,
+            206,
+            111
+        ],
+        "Humidity": [
+            534,
+            310,
+            128,
+            113
+        ]
+    },
+    "train_data219.jpg": {
+        "Temperature": [
+            435,
+            211,
+            229,
+            120
+        ],
+        "Humidity": [
+            526,
+            329,
+            138,
+            124
+        ]
+    },
+    "train_data5.jpg": {
+        "Temperature": [
+            444,
+            141,
+            270,
+            151
+        ],
+        "Humidity": [
+            545,
+            292,
+            167,
+            147
+        ]
+    },
+    "train_data7.jpg": {
+        "Temperature": [
+            444,
+            146,
+            275,
+            148
+        ],
+        "Humidity": [
+            544,
+            289,
+            169,
             152
         ]
     },
-    "train_data6.png": {
+    "train_data233.jpg": {
         "Temperature": [
-            457,
-            121,
-            264,
+            489,
+            272,
+            213,
+            117
+        ],
+        "Humidity": [
+            564,
+            393,
+            135,
+            120
+        ]
+    },
+    "train_data227.jpg": {
+        "Temperature": [
+            453,
+            196,
+            211,
+            109
+        ],
+        "Humidity": [
+            532,
+            309,
+            128,
+            112
+        ]
+    },
+    "train_data186.jpg": {
+        "Temperature": [
+            640,
+            187,
+            234,
+            126
+        ],
+        "Humidity": [
+            721,
+            317,
+            159,
+            126
+        ]
+    },
+    "train_data192.jpg": {
+        "Temperature": [
+            623,
+            116,
+            248,
+            131
+        ],
+        "Humidity": [
+            712,
+            252,
+            157,
+            137
+        ]
+    },
+    "train_data179.jpg": {
+        "Temperature": [
+            399,
+            116,
+            214,
+            112
+        ],
+        "Humidity": [
+            486,
+            225,
+            126,
+            114
+        ]
+    },
+    "train_data145.jpg": {
+        "Temperature": [
+            628,
+            228,
+            249,
             139
         ],
         "Humidity": [
-            549,
-            268,
-            176,
+            718,
+            368,
+            163,
+            148
+        ]
+    },
+    "train_data151.jpg": {
+        "Temperature": [
+            302,
+            217,
+            262,
+            137
+        ],
+        "Humidity": [
+            405,
+            358,
+            150,
+            133
+        ]
+    },
+    "train_data23.jpg": {
+        "Temperature": [
+            427,
+            142,
+            211,
+            107
+        ],
+        "Humidity": [
+            516,
+            255,
+            128,
+            102
+        ]
+    },
+    "train_data37.jpg": {
+        "Temperature": [
+            541,
+            194,
+            233,
+            125
+        ],
+        "Humidity": [
+            627,
+            319,
+            147,
+            128
+        ]
+    },
+    "train_data36.jpg": {
+        "Temperature": [
+            362,
+            155,
+            269,
+            142
+        ],
+        "Humidity": [
+            451,
+            300,
+            181,
+            148
+        ]
+    },
+    "train_data22.jpg": {
+        "Temperature": [
+            430,
+            142,
+            212,
+            109
+        ],
+        "Humidity": [
+            516,
+            252,
+            130,
+            109
+        ]
+    },
+    "train_data150.jpg": {
+        "Temperature": [
+            302,
+            220,
+            256,
+            131
+        ],
+        "Humidity": [
+            402,
+            355,
+            157,
+            134
+        ]
+    },
+    "train_data144.jpg": {
+        "Temperature": [
+            391,
+            249,
+            202,
+            103
+        ],
+        "Humidity": [
+            470,
+            353,
+            119,
+            103
+        ]
+    },
+    "train_data178.jpg": {
+        "Temperature": [
+            409,
+            116,
+            202,
+            112
+        ],
+        "Humidity": [
+            486,
+            226,
+            128,
+            109
+        ]
+    },
+    "train_data193.jpg": {
+        "Temperature": [
+            243,
+            105,
+            265,
+            136
+        ],
+        "Humidity": [
+            340,
+            241,
+            168,
+            134
+        ]
+    },
+    "train_data187.jpg": {
+        "Temperature": [
+            644,
+            190,
+            230,
+            121
+        ],
+        "Humidity": [
+            729,
+            318,
+            143,
+            123
+        ]
+    },
+    "train_data226.jpg": {
+        "Temperature": [
+            462,
+            193,
+            199,
+            117
+        ],
+        "Humidity": [
+            533,
+            307,
+            134,
+            115
+        ]
+    },
+    "train_data232.jpg": {
+        "Temperature": [
+            506,
+            233,
+            211,
+            115
+        ],
+        "Humidity": [
+            582,
+            355,
+            140,
+            121
+        ]
+    },
+    "train_data6.jpg": {
+        "Temperature": [
+            457,
+            144,
+            258,
             145
+        ],
+        "Humidity": [
+            551,
+            295,
+            161,
+            142
+        ]
+    },
+    "test_data1.png": {
+        "Temperature": [
+            452,
+            118,
+            269,
+            136
+        ],
+        "Humidity": [
+            550,
+            263,
+            176,
+            150
         ]
     }
 }
