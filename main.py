@@ -14,7 +14,7 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
                              QGroupBox, QFormLayout, QScrollArea, QMessageBox, QInputDialog, QDialog, QStackedWidget)
 from PyQt5 import uic
 from PyQt5.QtGui import QPixmap, QImage
-from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtCore import Qt, QTimer, QThread, pyqtSignal, QObject
 # Google Sheets Imports
 import gspread
 from google.oauth2.service_account import Credentials
@@ -44,108 +44,167 @@ def iou(boxA, boxB):
 
 def extract_templates(annotations):
     os.makedirs(TEMPLATE_DIR, exist_ok=True)
-    train_images = glob.glob(os.path.join(TRAIN_DIR, "*"))
-    ref_image_path = None
-    for path in train_images:
-        filename = os.path.basename(path)
-        if filename in annotations:
-            ref_image_path = path
-            break
-            
-    if not ref_image_path:
-        print("No annotated reference image found in images/train/")
-        return False
-
-    print(f"Using Master Image: {ref_image_path}")
-    img = cv2.imread(ref_image_path)
-    if img is None:
-        print(f"Error reading image: {ref_image_path}")
-        return False
-        
-    annots = annotations[os.path.basename(ref_image_path)]
+    
+    # Structure: templates[label] = [ {image: numpy_array, ...}, ... ]
+    # Actually simpler: templates[label] = [numpy_array1, numpy_array2, ...]
     templates = {}
-    for label, rect in annots.items():
-        if rect is None: continue
-        x, y, w, h = rect
-        template = img[y:y+h, x:x+w]
-        template_path = os.path.join(TEMPLATE_DIR, f"{label}_template.jpg")
-        cv2.imwrite(template_path, template)
-        templates[label] = template
-        print(f"Saved template for {label} to {template_path}")
+    
+    count = 0
+    for filename, annots in annotations.items():
+        if filename.startswith("test_"): continue # Skip test data
         
+        path = os.path.join(TRAIN_DIR, filename)
+        if not os.path.exists(path):
+            continue
+            
+        img = cv2.imread(path)
+        if img is None: continue
+        
+        for label, rect in annots.items():
+            if rect is None: continue
+            x, y, w, h = rect
+            
+            # Basic sanity check
+            if w <= 0 or h <= 0 or x < 0 or y < 0: continue
+            
+            template = img[y:y+h, x:x+w]
+            if template.size == 0: continue
+            
+            if label not in templates: templates[label] = []
+            templates[label].append(template)
+        
+        count += 1
+        
+    print(f"Extracted templates from {count} training images.")
+    # Debug: Save first template of each label
+    for label, t_list in templates.items():
+        print(f"  - {label}: {len(t_list)} variations")
+        if t_list:
+            cv2.imwrite(os.path.join(TEMPLATE_DIR, f"{label}_master_debug.jpg"), t_list[0])
+            
     return templates
 
 def preprocess_for_ocr(img_roi):
-    # PaddleOCR works best on natural images, but for 7-segment, we might need adjustments
-    # 1. Upscale
+    """Optimized preprocessing for LCD/7-segment displays"""
     candidate_list = []
-
-    # 1. Natural @ 2x Scale (Reduced from 4x for speed/memory)
     h, w = img_roi.shape[:2]
-    MAX_DIM = 2000
-    scale_factor = 2.0
-    if h * scale_factor > MAX_DIM or w * scale_factor > MAX_DIM:
-        scale_factor = min(MAX_DIM / w, MAX_DIM / h)
     
+    # Scale up for better OCR (3x works well for small LCD displays)
+    scale_factor = 3.0
     img_upscaled = cv2.resize(img_roi, (int(w * scale_factor), int(h * scale_factor)), interpolation=cv2.INTER_CUBIC)
     
-    # Candidate 1: Natural (Upscaled + Border)
-    cand1 = cv2.copyMakeBorder(img_upscaled, 20, 20, 20, 20, cv2.BORDER_CONSTANT, value=[127, 127, 127])
-    candidate_list.append(cand1)
-
-    # Candidate 2: Adaptive Threshold (Best for Glare/Shadows)
+    # Convert to grayscale
     gray = cv2.cvtColor(img_upscaled, cv2.COLOR_BGR2GRAY) if len(img_upscaled.shape) == 3 else img_upscaled
-    thresh_adap = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 31, 10)
     
-    # Check if we need to invert (ensure text is black on white)
-    h_t, w_t = thresh_adap.shape
-    corners = [thresh_adap[0,0], thresh_adap[0,w_t-1], thresh_adap[h_t-1,0], thresh_adap[h_t-1,w_t-1]]
-    if np.mean(corners) < 127: # Background is black
-         thresh_adap = cv2.bitwise_not(thresh_adap)
-         
-    cand2 = cv2.cvtColor(thresh_adap, cv2.COLOR_GRAY2BGR)
-    cand2 = cv2.copyMakeBorder(cand2, 20, 20, 20, 20, cv2.BORDER_CONSTANT, value=[255, 255, 255])
+    # Candidate 1: High contrast adaptive threshold (best for LCD with glare)
+    # Denoise first
+    denoised = cv2.GaussianBlur(gray, (3, 3), 0)
+    thresh = cv2.adaptiveThreshold(denoised, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 21, 10)
+    
+    # Ensure black text on white background
+    if np.mean(thresh[:10, :10]) < 127:
+        thresh = cv2.bitwise_not(thresh)
+    
+    # Clean noise with morphology
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
+    thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
+    
+    cand1 = cv2.cvtColor(thresh, cv2.COLOR_GRAY2BGR)
+    cand1 = cv2.copyMakeBorder(cand1, 30, 30, 30, 30, cv2.BORDER_CONSTANT, value=[255, 255, 255])
+    candidate_list.append(cand1)
+    
+    # Candidate 2: Simple Otsu threshold with padding
+    denoised2 = cv2.GaussianBlur(gray, (5, 5), 0)
+    _, otsu = cv2.threshold(denoised2, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    
+    if np.mean(otsu[:10, :10]) < 127:
+        otsu = cv2.bitwise_not(otsu)
+    
+    cand2 = cv2.cvtColor(otsu, cv2.COLOR_GRAY2BGR)
+    cand2 = cv2.copyMakeBorder(cand2, 30, 30, 30, 30, cv2.BORDER_CONSTANT, value=[255, 255, 255])
     candidate_list.append(cand2)
     
-    # Candidate 3: Thickened (Morphological Closing to connect segments)
-    kernel = np.ones((3,3), np.uint8)
-    thickened = cv2.erode(thresh_adap, kernel, iterations=1)
-    cand3 = cv2.cvtColor(thickened, cv2.COLOR_GRAY2BGR)
-    cand3 = cv2.copyMakeBorder(cand3, 20, 20, 20, 20, cv2.BORDER_CONSTANT, value=[255, 255, 255])
-    candidate_list.append(cand3)
+    # Candidate 3: Contrast enhancement + threshold
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+    enhanced = clahe.apply(gray)
+    _, enhanced_thresh = cv2.threshold(enhanced, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     
-    # Candidate 4: Inverted Natural (For white-on-black text)
-    inverted_natural = cv2.bitwise_not(cand1)
-    candidate_list.append(inverted_natural)
+    if np.mean(enhanced_thresh[:10, :10]) < 127:
+        enhanced_thresh = cv2.bitwise_not(enhanced_thresh)
+    
+    cand3 = cv2.cvtColor(enhanced_thresh, cv2.COLOR_GRAY2BGR)
+    cand3 = cv2.copyMakeBorder(cand3, 30, 30, 30, 30, cv2.BORDER_CONSTANT, value=[255, 255, 255])
+    candidate_list.append(cand3)
 
     return candidate_list
 
 def analyze_image(img, templates, reader, ground_truth=None):
     results = {}
-    for label, template in templates.items():
-        # Template Match
-        res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
-        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+    
+    # 0. Resize Input to match Training Domain (720p: 1280x720) for better ROI recognition
+    # This helps template matching scale and matches training data resolution.
+    TARGET_WIDTH = 1280
+    TARGET_HEIGHT = 720
+    h_orig, w_orig = img.shape[:2]
+    scale_factor = 1.0
+    
+    img_processing = img.copy()
+    
+    # Resize if image is larger than 720p
+    if w_orig > TARGET_WIDTH or h_orig > TARGET_HEIGHT:
+        # Calculate scale to fit within 720p while maintaining aspect ratio
+        scale_w = TARGET_WIDTH / w_orig
+        scale_h = TARGET_HEIGHT / h_orig
+        scale_factor = min(scale_w, scale_h)
         
-        # Predict Box
-        h, w = template.shape[:2]
-        top_left = max_loc
-        pred_box = [top_left[0], top_left[1], w, h]
-        score = max_val
+        new_w = int(w_orig * scale_factor)
+        new_h = int(h_orig * scale_factor)
+        img_processing = cv2.resize(img, (new_w, new_h), interpolation=cv2.INTER_AREA)
+
+    # 1. Multi-Template Matching
+    for label, template_list in templates.items():
+        best_score = -1
+        best_box = None # [x, y, w, h] on img_processing
         
-        # Draw Prediction (Red)
-        cv2.rectangle(img, (pred_box[0], pred_box[1]), (pred_box[0]+w, pred_box[1]+h), (0, 0, 255), 2)
+        for template in template_list:
+            # Need to ensure template is smaller than image
+            th, tw = template.shape[:2]
+            ih, iw = img_processing.shape[:2]
+            if th >= ih or tw >= iw: continue 
+            
+            res = cv2.matchTemplate(img_processing, template, cv2.TM_CCOEFF_NORMED)
+            min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+            
+            if max_val > best_score:
+                best_score = max_val
+                best_box = [max_loc[0], max_loc[1], tw, th]
+        
+        if best_box is None:
+            print(f"Warning: No match found for {label}")
+            continue
+
+        # Scale predictions back to original image
+        pred_box_orig = [
+            int(best_box[0] / scale_factor),
+            int(best_box[1] / scale_factor),
+            int(best_box[2] / scale_factor),
+            int(best_box[3] / scale_factor)
+        ]
+
+        # Draw Prediction (Red) on Original Image
+        x, y, w, h = pred_box_orig
+        cv2.rectangle(img, (x, y), (x+w, y+h), (0, 0, 255), 3)
         
         # --- OCR Section ---
-        x1, y1, w1, h1 = pred_box
-        x1 = max(0, x1); y1 = max(0, y1)
-        roi_img_orig = img[y1:y1+h1, x1:x1+w1]
+        # Crop from original resolution for max detail
+        x1 = max(0, x); y1 = max(0, y)
+        roi_img_orig = img[y1:y1+h, x1:x1+w]
         
         # Expanded coords
-        expand_w = int(w1 * 0.2); expand_h = int(h1 * 0.1)
+        expand_w = int(w * 0.2); expand_h = int(h * 0.1)
         x2 = max(0, x1 - expand_w); y2 = max(0, y1 - expand_h)
-        w2 = min(img.shape[1] - x2, w1 + 2 * expand_w)
-        h2 = min(img.shape[0] - y2, h1 + 2 * expand_h)
+        w2 = min(img.shape[1] - x2, w + 2 * expand_w)
+        h2 = min(img.shape[0] - y2, h + 2 * expand_h)
         roi_img_exp = img[y2:y2+h2, x2:x2+w2]
         
         candidates = []
@@ -154,61 +213,124 @@ def analyze_image(img, templates, reader, ground_truth=None):
         
         final_text = ""
         if candidates:
+            def clean_lcd_text(text):
+                """Clean and normalize LCD digit text"""
+                if not text:
+                    return ""
+                
+                # Only keep digits and decimal points
+                cleaned = re.sub(r'[^0-9.]', '', text)
+                
+                # Remove multiple consecutive dots
+                while '..' in cleaned:
+                    cleaned = cleaned.replace('..', '.')
+                
+                return cleaned
+            
             def parse_ocr_result(res):
-                text_out = ""
-                if not res: return text_out
-                flat_res = []
-                if isinstance(res, list):
-                    for item in res:
-                        if isinstance(item, tuple) and len(item) == 2:
-                            flat_res.append(item)
-                        elif isinstance(item, list):
-                            for subitem in item:
-                                if isinstance(subitem, tuple) and len(subitem) == 2:
-                                    flat_res.append(subitem)
-                 
-                if flat_res:
-                    for (text, score) in flat_res:
-                        cleaned = re.sub(r'[^0-9.]', '', text)
-                        text_out += cleaned
-                    return text_out
+                """Parse PaddleOCR result and extract text with confidence"""
+                if not res or res[0] is None:
+                    return "", 0.0
+                
+                try:
+                    # PaddleOCR with det=True returns: [[[box], (text, confidence)], ...]
+                    if isinstance(res, list) and len(res) > 0:
+                        all_texts = []
+                        for item in res:
+                            if isinstance(item, list) and len(item) >= 2:
+                                # Format: [[points], (text, score)]
+                                text_info = item[1] if len(item) > 1 else item[0]
+                                if isinstance(text_info, tuple) and len(text_info) == 2:
+                                    text, conf = text_info
+                                    cleaned = clean_lcd_text(str(text))
+                                    if cleaned:
+                                        all_texts.append((cleaned, float(conf)))
+                        
+                        if all_texts:
+                            # Return highest confidence result
+                            best = max(all_texts, key=lambda x: x[1])
+                            return best[0], best[1]
+                except Exception as e:
+                    print(f"    [Parse Error] {e}")
+                
+                return "", 0.0
 
-                # Standard format
-                if isinstance(res, list) and len(res) > 0:
-                     # Attempt to parse standard format just in case
-                     pass 
-                return text_out # Fallback handled by det=False usually returning simpler format
+            os.makedirs("debug_output", exist_ok=True)
+            import time
+            ts = int(time.time() * 1000)
 
             best_text = ""
-            for img_cand in candidates:
+            best_confidence = 0.0
+            
+            for idx, img_cand in enumerate(candidates):
+                # Save debug image
+                cv2.imwrite(f"debug_output/debug_ocr_candidate_{ts}_{idx}.png", img_cand)
+
                 try:
-                    result = reader.ocr(img_cand, det=False, cls=False)
-                except Exception:
-                    try:
-                        result = reader.ocr(img_cand)
-                    except:
-                        continue
-                
-                detected_text = parse_ocr_result(result)
-                if len(detected_text) > len(best_text):
-                    best_text = detected_text
+                    # Use detection mode for better accuracy on LCD displays
+                    result = reader.ocr(img_cand, det=True, cls=False)
+                    detected_text, confidence = parse_ocr_result(result)
+                    
+                    if detected_text:
+                        print(f"  > [{label}] Candidate {idx} Text: '{detected_text}' (conf: {confidence:.3f})")
+                        
+                        # Select based on confidence, not length
+                        if confidence > best_confidence:
+                            best_text = detected_text
+                            best_confidence = confidence
+                        elif confidence == best_confidence and len(detected_text) > len(best_text):
+                            # Tie-breaker: longer text if same confidence
+                            best_text = detected_text
+                            
+                except Exception as e:
+                    print(f"  > [{label}] Candidate {idx} Error: {e}")
+                    continue
             
             final_text = best_text
             
         results[label] = {
             'value': final_text,
-            'score': score,
-            'box': pred_box
+            'score': best_score,
+            'box': pred_box_orig
         }
 
         if ground_truth and label in ground_truth:
-            gt_box = ground_truth[label]
-            iou_val = iou(pred_box, gt_box)
-            cv2.rectangle(img, (gt_box[0], gt_box[1]), (gt_box[0]+gt_box[2], gt_box[1]+gt_box[3]), (0, 255, 0), 2)
-            results[label]['iou'] = iou_val
+             gt_box = ground_truth[label] # These are for scaled images usually in test? 
+             # Assuming GT is for the image provided.
+             iou_val = iou(pred_box_orig, gt_box)
+             cv2.rectangle(img, (gt_box[0], gt_box[1]), (gt_box[0]+gt_box[2], gt_box[1]+gt_box[3]), (0, 255, 0), 2)
+             results[label]['iou'] = iou_val
 
     return img, results
 
+
+
+class OCRWorker(QThread):
+    finished = pyqtSignal(object)
+    error = pyqtSignal(str)
+
+    def __init__(self, img_path, templates, reader):
+        super().__init__()
+        self.img_path = img_path
+        self.templates = templates
+        self.reader = reader
+
+    def run(self):
+        try:
+            img = cv2.imread(self.img_path)
+            if img is None:
+                self.error.emit(f"Error reading image: {self.img_path}")
+                return
+            
+            # Run analysis
+            # We copy Analyze Image logic here or call the global function.
+            # Calling global function is cleaner.
+            processed_img, results = analyze_image(img, self.templates, self.reader)
+            self.finished.emit((processed_img, results))
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            self.error.emit(str(e))
 
 # --- GUI CLASSES ---
 
@@ -288,6 +410,7 @@ class HygroScanApp(QMainWindow):
         self.ocr_reader = None
         self.current_image_path = None
         self.current_cv_image = None
+        self.worker = None
         
         # Connections
         self.btn_scan_qr.clicked.connect(self.scan_qr)
@@ -416,17 +539,25 @@ class HygroScanApp(QMainWindow):
         if not self.ocr_reader or not self.templates:
             QMessageBox.warning(self, "Error", "Backend not ready.")
             return
-        self.lbl_status.setText("Processing...")
-        QApplication.processEvents()
+
+        self.lbl_status.setText("Processing... Please wait.")
+        self.set_ui_busy(True)
+        
+        # Stop existing worker if running
+        if self.worker and self.worker.isRunning():
+            self.worker.wait()
+
+        self.worker = OCRWorker(path, self.templates, self.ocr_reader)
+        self.worker.finished.connect(self.on_processing_finished)
+        self.worker.error.connect(self.on_processing_error)
+        self.worker.start()
+
+    def on_processing_finished(self, data):
+        self.set_ui_busy(False)
+        processed_img, results = data
+        self.current_cv_image = processed_img
+        
         try:
-            img = cv2.imread(path)
-            if img is None:
-                self.lbl_status.setText("Error reading image.")
-                return
-            # Call backend function directly
-            processed_img, results = analyze_image(img, self.templates, self.ocr_reader)
-            self.current_cv_image = processed_img
-            
             temp_val = results.get("Temperature", {}).get("value", "")
             humid_val = results.get("Humidity", {}).get("value", "")
             
@@ -442,8 +573,21 @@ class HygroScanApp(QMainWindow):
             self.lbl_image_preview.setPixmap(pixmap)
             self.lbl_status.setText("Analysis Complete.")
         except Exception as e:
-            self.lbl_status.setText(f"Processing Error: {str(e)}")
+            self.lbl_status.setText(f"Display Error: {str(e)}")
             print(e)
+            
+    def on_processing_error(self, err_msg):
+        self.set_ui_busy(False)
+        self.lbl_status.setText(f"Error: {err_msg}")
+        QMessageBox.warning(self, "Processing Error", err_msg)
+
+    def set_ui_busy(self, busy):
+        self.btn_select_photo.setEnabled(not busy)
+        self.btn_confirm.setEnabled(not busy)
+        if busy:
+             self.setCursor(Qt.WaitCursor)
+        else:
+             self.setCursor(Qt.ArrowCursor)
 
     def scan_qr(self):
         dialog = QRScannerDialog(self)
