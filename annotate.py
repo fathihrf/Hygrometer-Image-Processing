@@ -33,24 +33,51 @@ def annotate_image(image_path, annotations):
 
     print(f"--- Annotating {filename} ---")
     current_file_annots = {}
+    
+    # Handle high-res images by downsizing for display
+    height, width = img.shape[:2]
+    max_disp_width = 1280
+    scale = 1.0
+    img_disp = img
+    
+    if width > max_disp_width:
+        scale = max_disp_width / width
+        new_width = int(width * scale)
+        new_height = int(height * scale)
+        img_disp = cv2.resize(img, (new_width, new_height))
+        print(f"Resized for display (Scale: {scale:.2f})")
 
     for cls in CLASSES:
-        print(f"Select ROI for [{cls}] (Draw box -> SPACE/ENTER). Press 'c' to cancel selection for this class.")
-        # cv2.selectROI opens a window. 
-        # Returns (x, y, w, h)
-        # fromCenter=False, showCrosshair=True
-        roi = cv2.selectROI(f"Select {cls}", img, fromCenter=False, showCrosshair=True)
+        print(f"Select ROI for [{cls}] (Draw box -> SPACE/ENTER). Press 'c' to cancel/skip.")
         
-        # Check if user cancelled (all zeros?)
-        # cv2.selectROI returns empty tuple or all zeros if cancelled depending on version, usually (0,0,0,0) if just closed/cancelled
-        if roi == (0,0,0,0):
+        # Add instruction on image
+        display_copy = img_disp.copy()
+        cv2.putText(display_copy, f"Select {cls} (SPACE to confirm, c to cancel)", (10, 30), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+        
+        roi = cv2.selectROI(f"Annotating {filename}", display_copy, fromCenter=False, showCrosshair=True)
+        
+        # Handle cancel/skip
+        if roi == (0,0,0,0) or roi[2] == 0 or roi[3] == 0:
              print(f"Skipped {cls}")
              current_file_annots[cls] = None
         else:
-             print(f"Selected {cls}: {roi}")
-             current_file_annots[cls] = roi
+             # Scale coordinates back to original size
+             x, y, w, h = roi
+             final_rect = [
+                 int(x / scale),
+                 int(y / scale),
+                 int(w / scale),
+                 int(h / scale)
+             ]
+             print(f"Selected {cls}: {final_rect}")
+             current_file_annots[cls] = final_rect
         
-        cv2.destroyWindow(f"Select {cls}")
+        # MacOS Fix: WaitKey loop to ensure window events process
+        cv2.waitKey(1)
+        
+    cv2.destroyAllWindows()
+    cv2.waitKey(1) # Extra wait for macOS to close window
 
     annotations[filename] = current_file_annots
     save_annotations(annotations)
@@ -71,7 +98,23 @@ def main():
         print("Please add images before running this tool.")
         return
 
+    # Filter out already annotated images
+    new_images = []
     for img_path in all_images:
+        filename = os.path.basename(img_path)
+        if filename in annotations:
+            print(f"Skipping {filename} (already annotated)")
+        else:
+            new_images.append(img_path)
+    
+    if not new_images:
+        print("No new images to annotate. All images have been annotated already.")
+        print("To re-annotate, delete entries from annotations.json or use --force flag.")
+        return
+    
+    print(f"\nFound {len(new_images)} new image(s) to annotate.\n")
+    
+    for img_path in new_images:
         annotate_image(img_path, annotations)
 
     print("Annotation complete.")
