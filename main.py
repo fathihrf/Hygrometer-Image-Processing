@@ -22,18 +22,6 @@ from google.oauth2.service_account import Credentials
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
-# --- OPENCV OPTIMIZATIONS ---
-# Enable SIMD optimizations (SSE/AVX) for 20-40% speed boost
-cv2.setUseOptimized(True)
-print(f"[OPTIMIZATION] OpenCV optimized: {cv2.useOptimized()}")
-
-# Enable OpenCL (GPU) if available for 40-60% additional speed boost
-if cv2.ocl.haveOpenCL():
-    cv2.ocl.setUseOpenCL(True)
-    print(f"[OPTIMIZATION] GPU acceleration enabled: {cv2.ocl.useOpenCL()}")
-else:
-    print(f"[OPTIMIZATION] GPU acceleration: Not available")
-
 # --- CONSTANTS & BACKEND LOGIC ---
 ANNOTATIONS_FILE = "annotations/annotations.json"
 TRAIN_DIR = "images/train"
@@ -87,17 +75,11 @@ def extract_templates(annotations):
             templates[label].append(template)
         
         count += 1
-    
-    # OPTIMIZATION: Sample every 2nd template for 2x speed boost
-    original_counts = {}
-    for label in templates:
-        original_counts[label] = len(templates[label])
-        templates[label] = templates[label][::2]  # Take every 2nd template
         
     print(f"Extracted templates from {count} training images.")
     # Debug: Save first template of each label
     for label, t_list in templates.items():
-        print(f"  - {label}: {len(t_list)} variations (sampled from {original_counts[label]})")
+        print(f"  - {label}: {len(t_list)} variations")
         if t_list:
             cv2.imwrite(os.path.join(TEMPLATE_DIR, f"{label}_master_debug.jpg"), t_list[0])
             
@@ -163,10 +145,10 @@ def analyze_image(img, templates, reader, ground_truth=None):
     # Start timing
     start_time = time.time()
     
-    # 0. Resize Input to match Training Domain (480p: 854x480) for faster processing
-    # OPTIMIZATION: Reduced from 720p to 480p for 2.2x speed boost with ~3% accuracy trade-off
-    TARGET_WIDTH = 854
-    TARGET_HEIGHT = 480
+    # 0. Resize Input to match Training Domain (720p: 1280x720) for better ROI recognition
+    # This helps template matching scale and matches training data resolution.
+    TARGET_WIDTH = 1280
+    TARGET_HEIGHT = 720
     h_orig, w_orig = img.shape[:2]
     scale_factor = 1.0
     
@@ -195,9 +177,7 @@ def analyze_image(img, templates, reader, ground_truth=None):
             ih, iw = img_processing.shape[:2]
             if th >= ih or tw >= iw: continue 
             
-            # OPTIMIZATION: Using TM_CCORR_NORMED instead of TM_CCOEFF_NORMED
-            # 30% faster with ~3-5% accuracy trade-off
-            res = cv2.matchTemplate(img_processing, template, cv2.TM_CCORR_NORMED)
+            res = cv2.matchTemplate(img_processing, template, cv2.TM_CCOEFF_NORMED)
             min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
             
             if max_val > best_score:
