@@ -139,6 +139,71 @@ def preprocess_for_ocr(img_roi):
 
     return candidate_list
 
+def optimized_template_match(img, template, scale=4):
+    """
+    Coarse-to-Fine Template Matching to reduce CPU usage.
+    1. Downscales image and template.
+    2. Performs fast matching on small scale.
+    3. Refines within a small ROI at original scale.
+    """
+    h, w = img.shape[:2]
+    th, tw = template.shape[:2]
+    
+    # 0. Safety Check: If template is too small, skip optimization
+    # If template is smaller than (scale*8) pixels, downscaling might lose too much detail
+    if th < (scale * 8) or tw < (scale * 8): 
+        res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
+        _, max_val, _, max_loc = cv2.minMaxLoc(res)
+        return max_val, max_loc
+        
+    new_w, new_h = w // scale, h // scale
+    new_tw, new_th = tw // scale, th // scale
+    
+    # Ensure downscaled size is valid
+    if new_w < new_tw or new_h < new_th or new_tw < 1 or new_th < 1:
+         res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
+         _, max_val, _, max_loc = cv2.minMaxLoc(res)
+         return max_val, max_loc
+
+    # 1. Downscale
+    small_img = cv2.resize(img, (new_w, new_h), interpolation=cv2.INTER_AREA)
+    small_template = cv2.resize(template, (new_tw, new_th), interpolation=cv2.INTER_AREA)
+    
+    # 2. Coarse Match
+    res = cv2.matchTemplate(small_img, small_template, cv2.TM_CCOEFF_NORMED)
+    _, max_val, _, max_loc = cv2.minMaxLoc(res)
+    
+    # 3. Refine Search Region
+    # Scale back coordinates to original image
+    top_left_x = max_loc[0] * scale
+    top_left_y = max_loc[1] * scale
+    
+    # Add padding to search area (allow some error margin from coarse match)
+    padding = 30 
+    
+    start_x = max(0, top_left_x - padding)
+    start_y = max(0, top_left_y - padding)
+    end_x = min(w, top_left_x + tw + padding)
+    end_y = min(h, top_left_y + th + padding)
+    
+    # Ensure ROI is larger than template
+    if (end_x - start_x) < tw or (end_y - start_y) < th:
+         res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
+         _, max_val, _, max_loc = cv2.minMaxLoc(res)
+         return max_val, max_loc
+
+    roi = img[start_y:end_y, start_x:end_x]
+    
+    # 4. Fine Match
+    res_fine = cv2.matchTemplate(roi, template, cv2.TM_CCOEFF_NORMED)
+    _, max_val_fine, _, max_loc_fine = cv2.minMaxLoc(res_fine)
+    
+    # Adjust local coordinates to global
+    final_x = start_x + max_loc_fine[0]
+    final_y = start_y + max_loc_fine[1]
+    
+    return max_val_fine, (final_x, final_y)
+
 def analyze_image(img, templates, reader, ground_truth=None):
     results = {}
     
@@ -177,8 +242,8 @@ def analyze_image(img, templates, reader, ground_truth=None):
             ih, iw = img_processing.shape[:2]
             if th >= ih or tw >= iw: continue 
             
-            res = cv2.matchTemplate(img_processing, template, cv2.TM_CCOEFF_NORMED)
-            min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+            # Optimized Matching
+            max_val, max_loc = optimized_template_match(img_processing, template)
             
             if max_val > best_score:
                 best_score = max_val
