@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1100</width>
-    <height>800</height>
+    <height>808</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -92,89 +92,154 @@
       <property name="frameShadow">
        <enum>QFrame::Plain</enum>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <property name="leftMargin">
-        <number>10</number>
+      <widget class="QPushButton" name="btn_nav_dashboard">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>236</y>
+         <width>119</width>
+         <height>41</height>
+        </rect>
        </property>
-       <property name="rightMargin">
-        <number>10</number>
+       <property name="text">
+        <string>   Dashboard</string>
        </property>
-       <item>
-        <widget class="QLabel" name="label_brand">
-         <property name="text">
-          <string>Tracker</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_brand_2">
-         <property name="text"><string></string></property>
-         <property name="alignment"><set>Qt::AlignCenter</set></property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_brand_3">
-         <property name="text"><string></string></property>
-         <property name="alignment"><set>Qt::AlignCenter</set></property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btn_nav_dashboard">
-         <property name="text">
-          <string>   Dashboard</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btn_nav_upload">
-         <property name="text">
-          <string>   Upload &amp; Review</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btn_nav_history">
-         <property name="text">
-          <string>   History</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>466</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="autoExclusive">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_nav_upload">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>283</y>
+         <width>121</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>   Upload</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+       <property name="autoExclusive">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_nav_history">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>330</y>
+         <width>121</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>   History</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="autoExclusive">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_brand">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>176</y>
+         <width>228</width>
+         <height>62</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>-1</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Hygrometer Scanner</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_brand_3">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>70</y>
+         <width>141</width>
+         <height>37</height>
+        </rect>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>61</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="plnip.qrc">:/newPrefix/Danantara_Indonesia_(no_SW).svg.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="margin">
+        <number>0</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_brand_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>175</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>76</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="plnip.qrc">:/newPrefix/Screenshot 2023-11-30 195942 (1).png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
      </widget>
     </item>
     <item>
@@ -201,58 +266,156 @@
         </item>
        </layout>
       </widget>
-      
-      <!-- MERGED Location Selection Page -->
       <widget class="QWidget" name="page_location">
+       <property name="styleSheet">
+        <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x3:1, y2:1, stop:0 #2FC3CC, stop:1 #00AFE3);</string>
+       </property>
        <layout class="QVBoxLayout" name="verticalLayout_location">
-        <property name="spacing"><number>20</number></property>
-        <property name="leftMargin"><number>50</number></property>
-        <property name="topMargin"><number>50</number></property>
-        <property name="rightMargin"><number>50</number></property>
-        <property name="bottomMargin"><number>50</number></property>
+        <property name="spacing">
+         <number>20</number>
+        </property>
+        <property name="leftMargin">
+         <number>50</number>
+        </property>
+        <property name="topMargin">
+         <number>50</number>
+        </property>
+        <property name="rightMargin">
+         <number>50</number>
+        </property>
+        <property name="bottomMargin">
+         <number>50</number>
+        </property>
         <item>
          <widget class="QLabel" name="label_title">
           <property name="font">
-           <font><pointsize>24</pointsize><weight>75</weight><bold>true</bold></font>
+           <font>
+            <pointsize>24</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
           </property>
-          <property name="text"><string>Identify Hygrometer Location</string></property>
-          <property name="alignment"><set>Qt::AlignCenter</set></property>
+          <property name="styleSheet">
+           <string notr="true">background-color: transparent;
+color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>Identify Hygrometer Location</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="label_instruction">
-          <property name="font"><font><pointsize>14</pointsize></font></property>
-          <property name="text"><string>Please choose a method to identify the location of the device.</string></property>
-          <property name="alignment"><set>Qt::AlignCenter</set></property>
-          <property name="wordWrap"><bool>true</bool></property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: transparent;
+color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>Please choose a method to identify the location of the device.</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
-        <item><spacer name="verticalSpacer_top"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property></spacer></item>
+        <item>
+         <spacer name="verticalSpacer_top">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_buttons">
-          <property name="spacing"><number>40</number></property>
+          <property name="spacing">
+           <number>40</number>
+          </property>
           <item>
            <widget class="QPushButton" name="btn_scan_qr">
-            <property name="minimumSize"><size><width>200</width><height>150</height></size></property>
-            <property name="font"><font><pointsize>16</pointsize><weight>75</weight><bold>true</bold></font></property>
-            <property name="text"><string>Scan QR Code</string></property>
-            <property name="styleSheet"><string notr="true">QPushButton { background-color: #3498db; color: white; border-radius: 10px; } QPushButton:hover { background-color: #2980b9; }</string></property>
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>150</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton { background-color: #2980b9; color: white; border-radius: 10px; } QPushButton:hover { background-color: rgb(33, 103, 147); }</string>
+            </property>
+            <property name="text">
+             <string>Scan QR Code</string>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="btn_scan_rfid">
-            <property name="minimumSize"><size><width>200</width><height>150</height></size></property>
-            <property name="font"><font><pointsize>16</pointsize><weight>75</weight><bold>true</bold></font></property>
-            <property name="text"><string>Scan RFID Tag</string></property>
-            <property name="styleSheet"><string notr="true">QPushButton { background-color: #2ecc71; color: white; border-radius: 10px; } QPushButton:hover { background-color: #27ae60; }</string></property>
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>150</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton { background-color: rgb(249, 208, 0); color: white; border-radius: 10px; } QPushButton:hover { background-color: rgb(232, 193, 0); }</string>
+            </property>
+            <property name="text">
+             <string>Scan RFID Tag</string>
+            </property>
            </widget>
           </item>
          </layout>
         </item>
-        <item><spacer name="verticalSpacer_bottom"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property></spacer></item>
+        <item>
+         <spacer name="verticalSpacer_bottom">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
        </layout>
       </widget>
-
       <widget class="QWidget" name="page_upload">
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <property name="leftMargin">
@@ -326,47 +489,57 @@
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
             <widget class="QLabel" name="label_drop_icon">
+             <property name="font">
+              <font>
+               <pointsize>32</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>📷</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
              </property>
-             <property name="font">
-                <font>
-                    <pointsize>32</pointsize>
-                </font>
-             </property>
             </widget>
            </item>
            <item>
             <widget class="QLabel" name="label_drop_text">
-             <property name="text">
-              <string>Drag and drop your photo here</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
              <property name="font">
               <font>
                <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
+             <property name="text">
+              <string>Drag and drop your photo here</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
             </widget>
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_btn">
-                <item>
-                     <spacer name="horizontalSpacer_btn1"><property name="orientation"><enum>Qt::Horizontal</enum></property></spacer>
-                </item>
-                <item>
-                    <widget class="QPushButton" name="btn_select_photo">
-                     <property name="cursor">
-                      <cursorShape>PointingHandCursor</cursorShape>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">
+             <item>
+              <spacer name="horizontalSpacer_btn1">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_select_photo">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">
                         QPushButton {
                             background-color: #e0e4e8;
                             border: none;
@@ -379,15 +552,25 @@
                             background-color: #d0d4d8;
                         }
                       </string>
-                     </property>
-                     <property name="text">
-                      <string>Select Photo</string>
-                     </property>
-                    </widget>
-                </item>
-                <item>
-                     <spacer name="horizontalSpacer_btn2"><property name="orientation"><enum>Qt::Horizontal</enum></property></spacer>
-                </item>
+               </property>
+               <property name="text">
+                <string>Select Photo</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_btn2">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
             </layout>
            </item>
           </layout>
@@ -449,24 +632,32 @@
                <height>300</height>
               </size>
              </property>
+             <property name="styleSheet">
+              <string notr="true">border: none;</string>
+             </property>
              <property name="widgetResizable">
               <bool>true</bool>
              </property>
-             <property name="styleSheet">
-                <string notr="true">border: none;</string>
-            </property>
              <widget class="QWidget" name="scrollAreaWidgetContents">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>135</width>
+                <height>283</height>
+               </rect>
+              </property>
               <layout class="QHBoxLayout" name="horizontalLayout_2">
                <item>
                 <widget class="QLabel" name="lbl_image_preview">
+                 <property name="styleSheet">
+                  <string notr="true">color: #aaa;</string>
+                 </property>
                  <property name="text">
                   <string>Preview will appear here</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
-                 </property>
-                 <property name="styleSheet">
-                    <string notr="true">color: #aaa;</string>
                  </property>
                 </widget>
                </item>
@@ -481,21 +672,21 @@
              </property>
              <item row="0" column="0">
               <widget class="QLabel" name="label_5">
-               <property name="text">
-                <string>Temperature (°C)</string>
-               </property>
                <property name="styleSheet">
                 <string notr="true">font-weight: bold; color: #444;</string>
+               </property>
+               <property name="text">
+                <string>Temperature (°C)</string>
                </property>
               </widget>
              </item>
              <item row="0" column="1">
               <widget class="QLabel" name="label_6">
-               <property name="text">
-                <string>Humidity (%)</string>
-               </property>
                <property name="styleSheet">
                 <string notr="true">font-weight: bold; color: #444;</string>
+               </property>
+               <property name="text">
+                <string>Humidity (%)</string>
                </property>
               </widget>
              </item>
@@ -543,8 +734,12 @@
            </item>
            <item>
             <widget class="QLabel" name="lbl_status">
-              <property name="text"><string>Ready</string></property>
-              <property name="styleSheet"><string>color: #888;</string></property>
+             <property name="styleSheet">
+              <string>color: #888;</string>
+             </property>
+             <property name="text">
+              <string>Ready</string>
+             </property>
             </widget>
            </item>
           </layout>
@@ -601,6 +796,8 @@
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="plnip.qrc"/>
+ </resources>
  <connections/>
 </ui>
