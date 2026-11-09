@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+/images/
+/temp_capture.jpg
+client_secret*.json
+credentials*.json
+token*.json
+*.pickle
+*.pem
+*.key
